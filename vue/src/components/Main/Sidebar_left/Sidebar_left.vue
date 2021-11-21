@@ -1,13 +1,12 @@
 <template>
   <div v-if="user" class="">
     <div class="ml-2 flex flex-col h-screen pb-8 bg-white border-r dark:bg-gray-800 dark:border-gray-600">
-      <div class="text-xl font-semibold text-left mt-6 mb-8 ml-6 text-green-600">MEDLE PORTAL</div>
+      <div class="text-xl font-semibold text-left mt-6 mb-8 ml-6 text-green-600">PORTAL</div>
 
       <div class="flex mt-3 cursor-default ml-4">
         <img class="object-cover w-16 h-16 mr-2 rounded-full" src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="avatar">
         <div class="">
           <h4 class="mx-2 mb-2 font-medium text-sm dark:text-gray-200 hover:underline mainHeading">{{user.displayName}}</h4>
-          <div class="mx-2 mt-1 text-xs font-medium text-remSideBarGray dark:text-gray-400 hover:underline">Prodaja</div>
           <div class="mx-2 mt-1 text-xs font-medium text-remSideBarGray dark:text-gray-400 hover:underline">{{user.email}}</div>
         </div>
       </div>
@@ -34,7 +33,7 @@
           <router-link :to="{ name: 'MainProjekti' }" class="flex items-center px-4 py-2 mt-5 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700" href="#">
             <img class="inline mr-2" src="/svgs/projekti.svg" />
 
-            <span class="mx-4 font-medium text-black tracking-wide hover:text-remSideBarHoverBlue">Projekti</span>
+            <span class="mx-4 font-medium text-black tracking-wide hover:text-remSideBarHoverBlue">Dashboard</span>
           </router-link>
 
           <!-- <a class="flex items-center px-4 py-2 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700" href="#">
@@ -46,7 +45,7 @@
           <a v-if="$store.getters.getJwt" v-on:click="logout()" class="flex items-center px-4 py-2  text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700" href="#">
             <img class="inline mr-2" src="/svgs/logout.svg" />
 
-            <span class="mx-4 font-medium text-black tracking-wide hover:text-remSideBarHoverBlue">Odjava</span>
+            <span class="mx-4 font-medium text-black tracking-wide hover:text-remSideBarHoverBlue">Logout</span>
           </a>
         </nav>
       </div>

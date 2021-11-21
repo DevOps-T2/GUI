@@ -26,7 +26,7 @@ app.use((error, req, res, next) => {
 app.use(passport.initialize());
 app.use(passport.session());
 
-const port = process.env.PORT || 8081;
+const port = process.env.PORT || 8080;
 app.listen(port, function () {
     console.log(`MICROSERVICES NODEJS API is listening on ${port}!`);
 });

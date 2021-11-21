@@ -6,20 +6,20 @@
         <div class="text-left w-full pl-40 mt-36 ml-auto mr-auto">
             <div class="flex justify-between mb-9">
                 <div class="text-3xl leading-loose font-medium mainHeading">
-                    Pregled projektov
+                    Dashboard
                 </div>
                 <div>
                     <button @click="setTempData()" class="mr-4 leading-loose text-white font-semibold text-sm tracking-wide cursor-pointer outline-none focus:outline-none bg-gray-500 hover:bg-gray-700 rounded-full px-10 py-3 ">                        
-                        Vstavi testne podatke
+                        Placeholder 1
                     </button>
                     <button @click="getPovprasevanja()" class="mr-4 leading-loose text-white font-semibold text-sm tracking-wide cursor-pointer outline-none focus:outline-none bg-green-600 hover:bg-green-700 rounded-full px-10 py-3 ">                        
-                        Pridobi povprasevanja
+                        Placeholder 2
                         <div class="inline">
                             <div class="bi bi-arrow-repeat animate-spin inline-block" :class="fetchingPovprasevanja ? '' : 'hidden'"></div>                            
                         </div>
                     </button>
                     <button @click="addNewProject()" class="leading-loose text-white font-semibold text-sm tracking-wide cursor-pointer outline-none focus:outline-none bg-green-600 hover:bg-green-700 rounded-full px-10 py-3 ">                        
-                        Ustvari nov projekt 
+                        Placeholder 3
                         <img class="inline ml-4 " src="/svgs/addProject.svg" />
                     </button>
                 </div>
@@ -30,7 +30,7 @@
                     <div class="flex-1 -ml-8 opacity-50">Lokacija objekta</div>
                     <div class="flex-1 -ml-4 opacity-50">Število modulov</div>
                     <div class="flex-1 -ml-6 mr-24 opacity-50">Status</div> -->
-                    <div class="flex-1 -ml-6 mr-24 text-black">Povpraševanja</div>
+                    <div class="flex-1 -ml-6 mr-24 text-black">Placeholder</div>
                     <!-- <div class="flex-1 opacity-50">Ustvarjen</div>
                     <div class="flex-1 opacity-50">Zadnja sprememba</div> -->
                 </div>

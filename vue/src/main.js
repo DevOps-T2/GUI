@@ -124,7 +124,7 @@ const store = new Vuex.Store({
 })
 
 router.beforeResolve((to, from, next) => {
-    if (to.name !== 'MainLogin' && !store.getters.getJwt) next({ name: 'MainLogin' })
+    if ( to.name !== 'MainLogin' && to.name !== 'MainRegister' && !store.getters.getJwt) next({ name: 'MainLogin' })
     else if (to.name == 'MainLogin' && store.getters.getJwt) next({ name: 'dashboard' })
     else next();
 });

@@ -1,17 +1,30 @@
 <template>
-    <div class="container text-center">
-        <form class="form-group w-50 m-auto" id="registerForm" action="#" onsubmit="return false">
-            <h1 id="errorMessage" class="my-2"></h1>
-            <h2 class="form-signin-heading" >Register</h2>
-            <input type="email" id="inputEmail" name="email" class="form-control w-100 my-2 username-field input-lg" placeholder="test@test.com" required autofocus>
-            <input type="password" id="inputPassword" name="password" class="form-control w-100 mb-2" placeholder="Password" required>
-            <input type="text" id="inputDisplayName" name="displayname" class="form-control w-100 mb-2" placeholder="Display name" required>
-            <input type="number" id="inputMfilesID" name="mfilesID" class="form-control w-100 mb-2" placeholder="Mfiles ID" required>
-            <button class="btn btn-lg btn-primary btn-block" v-on:click="register()">Register</button>
-            <router-link class="btn btn-lg btn-primary btn-block" :to="{ name: 'MainLogin' }">Login</router-link>
+<div>
+    <div class="container text-center mx-auto mt-36">
+        <form class="form-group w-1/3 m-auto flex-col" id="loginForm" action="#" onsubmit="return false">
+        <h2 class="form-signin-heading text-3xl font-bold mb-2 mainHeading">Register a user</h2>
+            <div class="mt-4 border border-gray-200 rounded-md emailWrapper">
+                <input type="email" id="inputEmail" name="email" placeholder="E-mail" @change="removeErrorBorder()" class="p-5 placeholder-gray-500 text-gray-500 relative bg-white rounded border-0 outline-none focus:outline-none focus:shadow-sm w-full" required autofocus>
+            </div>
+            <div class="mt-4 border border-gray-200 rounded-md passwordWrapper">
+                <input type="password" id="inputPassword" name="password" placeholder="Password" @change="removeErrorBorder()" class="p-5 placeholder-gray-500 text-gray-500 relative bg-white rounded border-0 outline-none focus:outline-none focus:shadow-sm w-full" required>
+            </div>
+            <div class="mt-4 border border-gray-200 rounded-md passwordWrapper">
+                <input type="text" id="inputName" name="name" placeholder="Name" @change="removeErrorBorder()" class="p-5 placeholder-gray-500 text-gray-500 relative bg-white rounded border-0 outline-none focus:outline-none focus:shadow-sm w-full" required>
+            </div>
+            <div class="mt-4 border border-gray-200 rounded-md passwordWrapper">
+                <input type="text" id="inputRole" name="role" placeholder="Role" @change="removeErrorBorder()" class="p-5 placeholder-gray-500 text-gray-500 relative bg-white rounded border-0 outline-none focus:outline-none focus:shadow-sm w-full" required>
+            </div>
+            <button @click="register()" class="flex justify-center w-full outline-none focus:outline-none bg-green-600 hover:bg-green-700 text-sm text-white font-semibold tracking-wide py-5 mt-4 mb-4 rounded-full">
+                Register
+            </button>
+            <router-link :to="{ name: 'MainLogin' }" class="text-xs outline-none focus:outline-none underline text-remLostPass">
+                Login
+            </router-link>
         </form>
-        
+
     </div>
+</div>
 </template>
 
 <script>
@@ -35,29 +48,27 @@ import { fetchMixins } from '@/mixins/fetchMixins'
             async register() {
                 let inputEmail  = document.querySelector('#inputEmail').value;
                 let inputPassword  = document.querySelector('#inputPassword').value;
-                let inputDisplayName  = document.querySelector('#inputDisplayName').value;
-                let inputMfilesID  = document.querySelector('#inputMfilesID').value;
+                let inputName  = document.querySelector('#inputName').value;
+                let inputRole  = document.querySelector('#inputRole').value;
 
                 let registerParameters = {
                     'email': inputEmail,
                     'password': inputPassword,
-                    'displayName': inputDisplayName,
-                    'mfilesID': inputMfilesID
+                    'displayName': inputName,
+                    'role': inputRole
                 }
 
-                if(!inputEmail || !inputPassword || !inputDisplayName || !inputMfilesID) return;
+                if(!inputEmail || !inputPassword || !inputRole || !inputName) {
+                    this.addErrorBorder();
+                    return;
+                }
 
-                this.axios.post('http://' + process.env.VUE_APP_BASE_URL + '/api/' + 'register', registerParameters)
+                this.axios.post('/api/' + 'register', registerParameters)
                 .then(axiosRes => {
                     if (axiosRes.data.message == 'Registration successful') {
-                        //document.cookie = "jwt=" + loginResponse.jwt + ";path=/";
-                        console.log("Login success");
-
-                        this.$store.commit('setJwt', axiosRes.data.data.jwt);
-                        this.$store.commit('setUser', axiosRes.data.data.user);
-                        this.$store.commit('setPovprasevanja', []);
+                        console.log("Register success");
                         this.$router.push({
-                            name: 'MainProjekti'
+                            name: 'MainLogin'
                         });
                     }
                     else{
