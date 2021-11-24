@@ -13,8 +13,7 @@ import MainLogin from './components/MainLogin.vue';
 import MainProfile from './components/MainProfile.vue';
 import MainRegister from './components/MainRegister.vue';
 import MainDashboard from './components/MainDashboard.vue';
-import MainProjekti from './components/Main/MainProjekti.vue';
-import MainProjekt from './components/Main/MainProjekt.vue';
+import MainUserControls from './components/Main/MainUserControls.vue';
 
 // Povprasevanje
 
@@ -48,7 +47,7 @@ const router = new VueRouter({
         {
             path: '/',
             name: '/',
-            redirect: '/projekti'
+            redirect: '/userControls'
         },
         {
             path: '/register',
@@ -71,14 +70,9 @@ const router = new VueRouter({
             component: MainProfile
         },
         {
-            path: '/projekti',
-            name: 'MainProjekti',
-            component: MainProjekti
-        },
-        {
-            path: '/projekti/:projektID',
-            name: 'MainProjekt',
-            component: MainProjekt
+            path: '/userControls',
+            name: 'MainUserControls',
+            component: MainUserControls
         }
     ]
 });
