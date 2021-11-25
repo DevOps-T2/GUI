@@ -15,5 +15,7 @@ RUN npm install
 # Bundle app source
 COPY . .
 
+RUN npm install pm2 -g
+
 EXPOSE 8080
-CMD [ "node", "app.js" ]
+CMD ["pm2-runtime", "start", "app_pm2_config.json"]

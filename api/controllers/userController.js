@@ -5,6 +5,7 @@ exports.post = async function (req, res, next) {
     user.email = req.body.email;
     user.password = req.body.password;
     user.displayName = req.body.displayName;
+    user.userRole = req.body.userRole;
 
     user.save(function (err) {
         if (err){
@@ -51,7 +52,7 @@ exports.put = async function (req, res, next) {
         user.email = req.body.email;
         user.password = req.body.password;
         user.displayName = req.body.displayName;
-        user.mfilesID = req.body.mfilesID
+        user.userRole = req.body.userRole;
 
         user.save(function (err) {
             if (err) {
@@ -76,7 +77,7 @@ exports.patch = async function (req, res, next) {
         user.email = req.body.email || user.email;
         user.password = req.body.password || user.password;
         user.displayName = req.body.displayName || user.displayName;
-        user.mfilesID = req.body.mfilesID || user.mfilesID;
+        user.userRole = req.body.userRole || user.userRole;
 
         user.save(function (err) {
             if (err) {

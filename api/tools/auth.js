@@ -47,7 +47,7 @@ passport.use(
         },
         async (req, username, password, done) => {
             try {
-                const user = await createNewUser(req.body.email, req.body.password, req.body.displayName, req.body.mfilesID);
+                const user = await createNewUser(req.body.email, req.body.password, req.body.displayName, req.body.userRole);
                 if (user.errors) {
                     return done(user.errors)
                 }
@@ -94,13 +94,35 @@ passport.use(
     )
 );
 
-async function createNewUser(email, password, displayName, mfilesID) {
+async function createNewUser(email, password, displayName, userRole) {
     let userData = {
         "email": email,
         "password": password,
         "displayName": displayName,
-        "mfilesID": mfilesID,
+        "userRole": userRole,
     }
 
     return await(await(await apiRequest.doApiRequest("users", "POST", userData, true)).json()).data;
+}
+
+module.exports = {
+    checkId: function(req, res, next, param) {
+        console.log("err")
+        res.status(403).json({
+            message: 'Authentication failed',
+            data: ""
+        });
+
+        return;
+        /* let village = await(await(await tools.doApiRequest("villages/" + req.params.idVillage, "GET", "", false)).json()).data; 
+        if (req.user._id == village.owner || req.user.email == "admin@test.com"){
+            return next();
+        } else{
+            res.status(403).json({
+                message: 'Authentication failed',
+                data: ""
+            });
+            return;
+        } */
+    }
 }

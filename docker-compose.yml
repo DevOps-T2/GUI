@@ -7,7 +7,7 @@ services:
         ports:
           - "8080:8080"
         depends_on:
-            - db
+          - db
         environment:
           - MONGO_USERNAME=db
           - MONGO_PASSWORD=db
@@ -15,21 +15,23 @@ services:
           - MONGO_PORT=27017
           - MONGO_DB=microservices
         networks:
-        - app-network
+          - app-network
 
     vue:
         image: buckybuck/mcrvue
         container_name: vue
         ports:
           - "80:80"
+        depends_on:
+          - nodejs
         networks:
-            - app-network
+          - app-network
     
     db:
         image: mongo
         container_name: mongo
         networks:
-            - app-network
+          - app-network
         ports:
           - "27017:27017"
         command: [--auth]

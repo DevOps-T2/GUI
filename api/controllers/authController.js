@@ -51,6 +51,7 @@ exports.login = async function (req, res, next) {
                         const body = {
                             id: user.id,
                             email: user.email,
+                            userRole: user.userRole,
                         };
                         //console.log("user.id", user.id)
                         const token = jwt.sign({ user: body }, process.env.API_KEY, { expiresIn: '1h' });
@@ -64,7 +65,7 @@ exports.login = async function (req, res, next) {
                                     'email': user.email,
                                     'displayName': user.displayName,
                                     'id': user.id,
-                                    'mfid': user.mfilesID,
+                                    'userRole': user.userRole,
                                 }
                             }
                         });
