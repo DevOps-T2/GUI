@@ -28,5 +28,5 @@ app.use(passport.session());
 
 const port = process.env.PORT || 8080;
 app.listen(port, function () {
-    console.log(`MICROSERVICES NODEJS API is listening on ${port}!`);
+    console.log(`Microservices ${process.env.SERVICE_NAME} service is listening on ${port}!`);
 });

@@ -17,5 +17,5 @@ COPY . .
 
 RUN npm install pm2 -g
 
-EXPOSE 8080
+EXPOSE 8082
 CMD ["pm2-runtime", "start", "app_pm2_config.json"]

@@ -6,15 +6,15 @@ metadata:
     kompose.version: 1.24.0 (4a2a0458)
   creationTimestamp: null
   labels:
-    io.kompose.service: nodejs
-  name: nodejs
+    io.kompose.service: mcrquotas
+  name: mcrquotas
 spec:
   type: LoadBalancer
   ports:
-    - name: "8080"
-      port: 8080
-      targetPort: 8080
+    - name: "8082"
+      port: 8082
+      targetPort: 8082
   selector:
-    io.kompose.service: nodejs
+    io.kompose.service: mcrquotas
 status:
   loadBalancer: {}

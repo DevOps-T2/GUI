@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const auth = require('../tools/auth');
 const userModel = require('../models/userModel');
+require('dotenv').config();
 
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
@@ -11,7 +12,7 @@ const authController = require('../controllers/authController');
 router.get('/', function (req, res) {
     res.json({
         status: 'API Its Working',
-        message: 'Welcome to MICROSERVICES NODEJS API crafted with love!',
+        message: `Welcome to Microservices ${process.env.SERVICE_NAME} service crafted with love!`,
     });
 });
 
