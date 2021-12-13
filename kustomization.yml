@@ -1,0 +1,5 @@
+commonLabels:
+  app: gui-app
+resources:
+  - vue-deployment.yaml
+  - vue-service.yaml

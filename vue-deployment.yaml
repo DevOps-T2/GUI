@@ -25,8 +25,8 @@ spec:
         io.kompose.service: vue
     spec:
       containers:
-        - image: buckybuck/mcrvue
-          name: vue
+        - image: gui
+          name: gui
           ports:
             - containerPort: 80
           resources: {}
