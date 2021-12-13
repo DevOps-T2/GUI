@@ -52,8 +52,8 @@ function authenticate(req, res, next){
             req.user = user;
             return next();
         } else {
-            console.log("UNAUTHORIZED - JWT INVALID");
-            res.json({
+            console.log("Authentication failed");
+            res.status(401).json({
                 message:'Unauthorized',
                 data:""
             });
@@ -72,7 +72,7 @@ function checkId(req, res, next, param) {
             return next();
         } else{
             res.status(403).json({
-                message: 'Authentication failed',
+                message: 'Authorization failed',
                 data: ""
             });
             return;

@@ -14,6 +14,7 @@ import MainProfile from './components/MainProfile.vue';
 import MainRegister from './components/MainRegister.vue';
 import MainDashboard from './components/MainDashboard.vue';
 import MainUserControls from './components/Main/MainUserControls.vue';
+import AdminPanel from './components/Main/AdminPanel.vue';
 
 // Povprasevanje
 
@@ -73,6 +74,11 @@ const router = new VueRouter({
             path: '/userControls',
             name: 'MainUserControls',
             component: MainUserControls
+        },
+        {
+            path: '/adminPanel',
+            name: 'AdminPanel',
+            component: AdminPanel
         }
     ]
 });

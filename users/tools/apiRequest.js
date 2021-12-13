@@ -4,10 +4,11 @@ require('dotenv').config();
 module.exports = {
     doApiRequest: async function (path, method, data, jsonf){
         let response;
+        let URL = `http://localhost:${process.env.PORT}/api/${path}`;
         console.log('doApiRequest:');
-        console.log('http://' + 'localhost:8080' + '/api/' + path);
+        console.log(URL);
         if (jsonf){
-            response = await fetch('http://' + 'localhost:8080' + '/api/' + path, {
+            response = await fetch(URL, {
                 method: method,
                 headers: {
                     'Content-Type': 'application/json',
@@ -16,7 +17,7 @@ module.exports = {
                 body: JSON.stringify(data),
             });
         } else {
-            response = await fetch('http://' + 'localhost:8080' + '/api/' + path, { 
+            response = await fetch(URL, { 
                 method: method, 
                 headers: {'Authorization': 'Bearer ' + process.env.ADMIN_TOKEN}
             });

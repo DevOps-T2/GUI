@@ -55,7 +55,7 @@ import { fetchMixins } from '@/mixins/fetchMixins'
                     'email': inputEmail,
                     'password': inputPassword,
                     'displayName': inputName,
-                    'role': inputRole
+                    'userRole': inputRole
                 }
 
                 if(!inputEmail || !inputPassword || !inputRole || !inputName) {

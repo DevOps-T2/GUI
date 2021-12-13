@@ -35,6 +35,11 @@
 
             <span class="mx-4 font-medium text-black tracking-wide hover:text-remSideBarHoverBlue">Dashboard</span>
           </router-link>
+          <router-link :to="{ name: 'AdminPanel' }" class="flex items-center px-4 py-2 mt-5 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700">
+            <img class="inline mr-2" src="/svgs/projekti.svg" />
+
+            <span class="mx-4 font-medium text-black tracking-wide hover:text-remSideBarHoverBlue">Admin panel</span>
+          </router-link>
 
           <!-- <a class="flex items-center px-4 py-2 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700" href="#">
             <img class="inline mr-2" src="/svgs/dokumenti.svg" />
