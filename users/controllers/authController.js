@@ -25,6 +25,7 @@ exports.register = async function (req, res, next) {
 };
 
 exports.login = async function (req, res, next) {
+    console.log(req)
     passport.authenticate('login',
         async (err, user, info) => {
             try {
