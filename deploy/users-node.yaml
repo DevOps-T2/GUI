@@ -1,0 +1,44 @@
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-app-service
+  labels:
+    app: users-service
+spec:
+  ports:
+      port: 80
+  selector:
+      app: users-app
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: users-app
+  name: users
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: app-users
+    spec:
+      containers:
+        - env:
+            - name: MONGO_DB
+              value: microservices
+            - name: MONGO_HOSTNAME
+              value: users-mongo
+            - name: MONGO_PASSWORD
+              value: db
+            - name: MONGO_PORT
+              value: "27017"
+            - name: MONGO_USERNAME
+              value: db
+          image: users
+          name: users
+          ports:
+            - containerPort: 80
+              name: users

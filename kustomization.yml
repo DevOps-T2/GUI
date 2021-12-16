@@ -1,6 +1,5 @@
 commonLabels:
-  app: gui-app
+  app: users-app
 resources:
-  - mcrusers-deployment.yaml
-  - mcrusers-service.yaml
-  - users-mongo.yaml
+  - deploy/users-mongo.yaml
+  - deploy/users-node.yaml
