@@ -26,7 +26,7 @@ app.use((error, req, res, next) => {
 app.use(passport.initialize());
 app.use(passport.session());
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 80;
 app.listen(port, function () {
     console.log(`Microservices ${process.env.SERVICE_NAME} service is listening on ${port}!`);
 });
