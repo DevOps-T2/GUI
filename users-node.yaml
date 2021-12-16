@@ -7,9 +7,9 @@ metadata:
     app: users-service
 spec:
   ports:
-    port: 80
+    - port: 80
   selector:
-      app: users-app
+    app: users-app
 ---
 
 apiVersion: apps/v1
