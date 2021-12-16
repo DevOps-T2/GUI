@@ -42,4 +42,14 @@ spec:
               value: "27017"
             - name: MONGO_USERNAME
               value: db
+            - name: ADMIN_TOKEN
+              value: ndz99863s1
+            - name: HOSTNAME
+              value: localhost
+            - name: API_KEY
+              value: test
+            - name: SERVICE_NAME
+              value: Users
+            - name: PORT
+              value: 80
     
