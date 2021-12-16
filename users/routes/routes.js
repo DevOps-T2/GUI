@@ -23,11 +23,11 @@ router.route('/users')
     .patch(userController.patch)
     .delete(userController.delete);  
 
-/* router.route('/register')
+router.route('/register')
     .post(authController.register);
 
 router.route('/login')
-    .post(authController.login); */
+    .post(authController.login);
 
 /*
 router.route('/projects/:projectid/sprints/:sprintid/stories/:storyid/tasks/:taskid/taskUsers')
