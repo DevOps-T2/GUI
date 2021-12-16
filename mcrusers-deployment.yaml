@@ -36,7 +36,7 @@ spec:
               value: "27017"
             - name: MONGO_USERNAME
               value: db
-          image: buckybuck/mcrusers
+          image: users
           name: users
           ports:
             - containerPort: 8081
