@@ -5,6 +5,7 @@ const passport = require('passport');
 const userModel = require('../models/userModel');
 require('dotenv').config();
 
+const authController = require('../controllers/authController');
 const userController = require('../controllers/userController');
 
 router.get('/', function (req, res) {
