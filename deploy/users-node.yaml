@@ -33,23 +33,23 @@ spec:
               name: users
           env:
             - name: MONGO_DB
-              value: microservices
+              value: "microservices"
             - name: MONGO_HOSTNAME
-              value: users-mongo
+              value: "users-mongo"
             - name: MONGO_PASSWORD
-              value: db
+              value: "db"
             - name: MONGO_PORT
               value: "27017"
             - name: MONGO_USERNAME
-              value: db
+              value: "db"
             - name: ADMIN_TOKEN
-              value: ndz99863s1
+              value: "ndz99863s1"
             - name: HOSTNAME
-              value: localhost
+              value: "localhost"
             - name: API_KEY
-              value: test
+              value: "test"
             - name: SERVICE_NAME
-              value: Users
+              value: "Users"
             - name: PORT
-              value: 80
+              value: "80"
     
