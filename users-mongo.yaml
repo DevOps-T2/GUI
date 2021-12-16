@@ -4,7 +4,7 @@ metadata:
   name: users-mongo
 spec:
   ports:
-  - port: 27017
+    - port: 27017
   selector:
     app: users-mongo
 ---
