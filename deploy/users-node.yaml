@@ -22,23 +22,11 @@ spec:
   template:
     metadata:
       labels:
-        app: app-users
+        app: users-app
     spec:
       containers:
         - name: users
           image: users
           ports:
             - containerPort: 80
-              name: users
-        - env:
-            - name: MONGO_DB
-              value: microservices
-            - name: MONGO_HOSTNAME
-              value: users-mongo
-            - name: MONGO_PASSWORD
-              value: db
-            - name: MONGO_PORT
-              value: "27017"
-            - name: MONGO_USERNAME
-              value: db
-        
+              name: users        
