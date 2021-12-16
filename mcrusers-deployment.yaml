@@ -29,7 +29,7 @@ spec:
             - name: MONGO_DB
               value: microservices
             - name: MONGO_HOSTNAME
-              value: db
+              value: users-mongo
             - name: MONGO_PASSWORD
               value: db
             - name: MONGO_PORT
@@ -37,7 +37,7 @@ spec:
             - name: MONGO_USERNAME
               value: db
           image: buckybuck/mcrusers
-          name: mcrusers
+          name: users
           ports:
             - containerPort: 8081
           resources: {}
