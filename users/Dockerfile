@@ -16,6 +16,7 @@ RUN npm install
 COPY . .
 
 RUN npm install pm2 -g
+RUN apk --no-cache add curl
 
-EXPOSE 8081
+EXPOSE 80
 CMD ["pm2-runtime", "start", "app_pm2_config.json"]
