@@ -11,13 +11,20 @@ const {
 const options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  reconnectTries: 10,
-  reconnectInterval: 1000
 };
 
 const uri = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}/${MONGO_DB}?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false`;
 console.log(uri)
-mongoose.connect(uri, options);
+
+var connectWithRetry = function() {
+  return mongoose.connect(mongoUrl, options, function(err) {
+    if (err) {
+      console.error('Failed to connect to mongo on startup - retrying in 5 sec', err);
+      setTimeout(connectWithRetry, 5000);
+    }
+  });
+};
+connectWithRetry();
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
