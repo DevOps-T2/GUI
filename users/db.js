@@ -17,7 +17,7 @@ const uri = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}/${M
 console.log(uri)
 
 var connectWithRetry = function() {
-  return mongoose.connect(mongoUrl, options, function(err) {
+  return mongoose.connect(uri, options, function(err) {
     if (err) {
       console.error('Failed to connect to mongo on startup - retrying in 5 sec', err);
       setTimeout(connectWithRetry, 5000);
