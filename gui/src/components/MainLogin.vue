@@ -82,7 +82,7 @@ export default {
                 return;
             }
 
-            this.axios.post('http://'+process.env.VUE_APP_BASE_URL+'/api/users/login', loginParameters)
+            this.axios.post('http://'+'34.140.9.12'+'/api/users/login', loginParameters)
             .then(async axiosRes => {
                 if (axiosRes.data.message == 'Login successful') {
                     //document.cookie = "jwt=" + loginResponse.jwt + ";path=/";

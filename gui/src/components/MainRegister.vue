@@ -82,7 +82,7 @@ import { fetchMixins } from '@/mixins/fetchMixins'
                     });
                 }
 
-                this.axios.post('http://'+process.env.VUE_APP_BASE_URL+'/api/users/register', registerParameters)
+                this.axios.post('http://'+'34.140.9.12'+'/api/users/register', registerParameters)
                 .then(axiosRes => {
                     if (axiosRes.data.message == 'Registration successful') {
                         console.log("Register success");
