@@ -33,21 +33,25 @@
                     <div>
                         ID: {{index}}
                     </div>
+
                     <div style="min-width: 200px">
                         File: {{mznFile.fileName}}
                     </div>
+
                     <button class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
-                        Download
+                        Show
                     </button>
-                    <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                        Update
-                    </button>
-                    <button class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
+
+                    <input type="file" :id="'mznUpdate' + index" @change="updateMznFile(mznFile.fileUUID)" class="hidden">
+                    <label :for="'mznUpdate' + index" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Update</label>
+                    
+                    <button @change="deleteFile(mznFile.fileUUID)" class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
                         Delete
                     </button>
                 </div>
                 <div class="flex px-20 pb-4 pt-6 justify-center border-t">
-                    <input type="file" id="mznUpload" @change="uploadMzn" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                    <input type="file" id="mznUpload" @change="uploadMzn" class="hidden">
+                    <label for="mznUpload" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Upload</label>
                 </div>
             </div>
 
@@ -59,21 +63,25 @@
                     <div>
                         ID: {{index}}
                     </div>
+
                     <div style="min-width: 200px">
                         File: {{dznFile.fileName}}
                     </div>
-                    <button class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
-                        Download
+
+                    <button @click="showFile(dznFile.fileUUID)" class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
+                        Show
                     </button>
-                    <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                        Update
-                    </button>
-                    <button class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
+
+                    <input type="file" :id="'dznUpdate' + index" @change="updateDznFile(dznFile.fileUUID)" class="hidden">
+                    <label :for="'dznUpdate' + index" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Update</label>
+                    
+                    <button @change="deleteFile(dznFile.fileUUID)" class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
                         Delete
                     </button>
                 </div>
                 <div class="flex px-20 pb-4 pt-6 justify-center border-t">
-                    <input type="file" id="dznUpload" @change="uploadDzn" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                    <input type="file" id="dznUpload" @change="uploadDzn" class="hidden">
+                    <label for="dznUpload" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Upload</label>
                 </div>
             </div>
 
@@ -201,7 +209,7 @@ export default {
         async setTempData() {
         },
         async refreshSolvers() {
-            this.solvers = await (await fetch('http://34.140.9.12/api/solvers/Solvers')).json();
+            //this.solvers = await (await fetch('http://34.140.9.12/api/solvers/Solvers')).json();
         },
         async refreshFiles() {
             let files = await (await fetch('http://34.140.9.12/api/minizinc/' + this.user.id)).json();
@@ -211,6 +219,89 @@ export default {
                 if (file.fileName.includes(".mzn"))         this.mznFiles.push(file);
                 else if (file.fileName.includes(".dzn"))    this.dznFiles.push(file);
             }
+        },
+        async showFile(fileUUID){
+            console.log(fileUUID);
+            let fileUrl = await fetch('http://34.140.9.12/api/minizinc/' + this.user.id + '/' + fileUUID);
+            console.log(fileUrl);
+            window.open(fileUrl, '_blank');
+        },
+        async updateMznFile(fileUUID){
+            let googleFileData = await (await fetch(`http://34.140.9.12/api/minizinc/upload?userID=${this.user.id}&fileUUID=${fileUUID}`)).json();
+            let formData = new FormData();
+            let mznFile = document.querySelector('#mznUpload');
+            if(!mznFile.files[0]) {alert("No file"); return;}
+            if(!mznFile.files[0].name.includes(".mzn")) {alert("Not a mzn file"); return;}
+            formData.append(mznFile.files[0].name, mznFile.files[0]);
+
+            this.axios.put(googleFileData.url, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            .then(axiosRes => {
+                console.log("google storage response: " + axiosRes);
+                this.axios.post('http://34.140.9.12/api/minizinc/upload', {userID: this.user.id, fileName: mznFile.files[0].name, fileUUID: googleFileData.fileUUID}, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(axiosRes => {
+                    let axiosJson = axiosRes.data;
+                    console.log(axiosJson);
+                    mznFile.value = "";
+                    this.refreshFiles();
+                })
+                .catch(axiosErr => {
+                    console.log("Axios error: " + axiosErr);
+                    alert("Axios error: " + axiosErr);
+                });
+            })
+            .catch(axiosErr => {
+                console.log("Axios error: " + axiosErr);
+                alert("Axios error: " + axiosErr);
+            });
+        },
+        async updateDznFile(fileUUID){
+            let googleFileData = await (await fetch(`http://34.140.9.12/api/minizinc/upload?userID=${this.user.id}&fileUUID=${fileUUID}`)).json();
+            let formData = new FormData();
+            let dznFile = document.querySelector('#dznUpload');
+            if(!dznFile.files[0]) {alert("No file"); return;}
+            if(!dznFile.files[0].name.includes(".dzn")) {alert("Not a dzn file"); return;}
+            formData.append(dznFile.files[0].name, dznFile.files[0]);
+
+            this.axios.put(googleFileData.url, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            .then(axiosRes => {
+                console.log("google storage response: " + axiosRes);
+                this.axios.post('http://34.140.9.12/api/minizinc/upload', {userID: this.user.id, fileName: dznFile.files[0].name, fileUUID: googleFileData.fileUUID}, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(axiosRes => {
+                    let axiosJson = axiosRes.data;
+                    console.log(axiosJson);
+                    dznFile.value = "";
+                    this.refreshFiles();
+                })
+                .catch(axiosErr => {
+                    console.log("Axios error: " + axiosErr);
+                    alert("Axios error: " + axiosErr);
+                });
+            })
+            .catch(axiosErr => {
+                console.log("Axios error: " + axiosErr);
+                alert("Axios error: " + axiosErr);
+            });
+        },
+        async deleteFile(fileUUID){
+            console.log(fileUUID);
+            let response = await fetch('http://34.140.9.12/api/minizinc/' + this.user.id + '/' + fileUUID, {method: "DELETE"});
+            console.log(response);
         },
         async uploadMzn() {
             let googleFileData = await (await fetch('http://34.140.9.12/api/minizinc/upload')).json();
