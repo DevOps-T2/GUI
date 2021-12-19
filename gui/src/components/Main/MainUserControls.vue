@@ -12,8 +12,8 @@
                     <button @click="setTempData()" class="mr-4 leading-loose text-white font-semibold text-sm tracking-wide cursor-pointer outline-none focus:outline-none bg-gray-500 hover:bg-gray-700 rounded-full px-10 py-3 ">
                         Placeholder 1
                     </button>
-                    <button @click="getPovprasevanja()" class="mr-4 leading-loose text-white font-semibold text-sm tracking-wide cursor-pointer outline-none focus:outline-none bg-green-600 hover:bg-green-700 rounded-full px-10 py-3 ">
-                        Placeholder 2
+                    <button @click="refreshSolvers()" class="mr-4 leading-loose text-white font-semibold text-sm tracking-wide cursor-pointer outline-none focus:outline-none bg-green-600 hover:bg-green-700 rounded-full px-10 py-3 ">
+                        Refresh Solvers
                         <div class="inline">
                             <div class="bi bi-arrow-repeat animate-spin inline-block" :class="fetchingPovprasevanja ? '' : 'hidden'"></div>
                         </div>
@@ -36,13 +36,13 @@
                     <div style="min-width: 200px">
                         File: instance.mzn
                     </div>
-                    <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                    <button class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
                         Download
                     </button>
                     <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
                         Update
                     </button>
-                    <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                    <button class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
                         Delete
                     </button>
                 </div>
@@ -53,13 +53,13 @@
                     <div style="min-width: 200px">
                         File: instance2.mzn
                     </div>
-                    <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                    <button class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
                         Download
                     </button>
                     <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
                         Update
                     </button>
-                    <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                    <button class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
                         Delete
                     </button>
                 </div>
@@ -81,13 +81,13 @@
                     <div style="min-width: 200px">
                         File: instance.dzn
                     </div>
-                    <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                    <button class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
                         Download
                     </button>
                     <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
                         Update
                     </button>
-                    <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                    <button class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
                         Delete
                     </button>
                 </div>
@@ -98,13 +98,13 @@
                     <div style="min-width: 200px">
                         File: instance2.dzn
                     </div>
-                    <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                    <button class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
                         Download
                     </button>
                     <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
                         Update
                     </button>
-                    <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                    <button class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
                         Delete
                     </button>
                 </div>
@@ -122,10 +122,8 @@
                 <div class="flex px-20 py-4 justify-between border-t">
                     <input type="text" placeholder="MZN ID" class="border-2 text-black border-gray-900 rounded-lg mx-2">
                     <input type="text" placeholder="DZN ID" class="border-2 text-black border-gray-900 rounded-lg mx-2">
-                    <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
-                        <option>Solver 1</option>
-                        <option>Solver 2</option>
-                        <option>Solver 3</option>
+                    <select style="text-transform: capitalize" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                        <option v-for="solver of solvers" :key="solver.id" style="text-transform: capitalize">{{solver.name}}</option>
                     </select>
                 </div>
                 <div class="flex px-20 pb-4">
@@ -214,7 +212,8 @@ export default {
     data() {
         return {
             povprasevanjaData: this.$store.getters.getPovprasevanja,
-            fetchingPovprasevanja: false
+            fetchingPovprasevanja: false,
+            solvers: []
         };
     },
 
@@ -224,14 +223,15 @@ export default {
         //this.getProjects();
     },
 
+    mounted(){
+        this.refreshSolvers();
+    },
+
     methods: {
         async setTempData() {
         },
-        async getPovprasevanja() {
-            this.fetchingPovprasevanja = true;
-            await this.$store.dispatch('fetchPovprasevanja');
-            this.fetchingPovprasevanja = false;
-            this.povprasevanjaData = await this.$store.getters.getPovprasevanja;
+        async refreshSolvers() {
+            this.solvers = await (await fetch('http://34.140.9.12/api/solvers/Solvers')).json();
         },
     }
 }
