@@ -58,7 +58,7 @@ export default {
 
             if(process.env.NODE_ENV == "development"){
                 console.log("dev mode")
-                this.axios.post(`http://localhost:8080/api/` + 'login', loginParameters)
+                this.axios.post('http://'+'34.140.9.12'+'/api/users/login', loginParameters)
                 .then(async axiosRes => {
                     if (axiosRes.data.message == 'Login successful') {
                         //document.cookie = "jwt=" + loginResponse.jwt + ";path=/";
