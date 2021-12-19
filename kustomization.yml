@@ -1,5 +1,4 @@
 commonLabels:
-  app: users-app
+  app: gui-app
 resources:
-  - deploy/users-mongo.yaml
-  - deploy/users-node.yaml
+  - deploy/gui.yaml

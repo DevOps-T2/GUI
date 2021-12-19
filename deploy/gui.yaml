@@ -1,55 +1,39 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: users-app-service
+  name: gui-app-service
   labels:
-    app: users-service
+    app: gui-service
 spec:
   type: LoadBalancer
   ports:
     - port: 80
   selector:
-    app: users-app
+    app: gui-app
 ---
 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: users-app
-  name: users
+    app: gui-app
+  name: gui
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: users-app
+        app: gui-app
     spec:
       containers:
-        - name: users
-          image: users
+        - name: gui
+          image: gui
           ports:
             - containerPort: 80
-              name: users
+              name: gui
           env:
-            - name: MONGO_DB
-              value: "microservices"
-            - name: MONGO_HOSTNAME
-              value: "users-mongo"
-            - name: MONGO_PASSWORD
-              value: "db"
-            - name: MONGO_PORT
-              value: "27017"
-            - name: MONGO_USERNAME
-              value: "db"
-            - name: ADMIN_TOKEN
-              value: "ndz99863s1"
-            - name: HOSTNAME
+            - name: VUE_APP_BASE_URL
               value: "localhost"
-            - name: API_KEY
-              value: "test"
-            - name: SERVICE_NAME
-              value: "Users"
-            - name: PORT
-              value: "80"
+            - name: VUE_APP_BASE_PROTOCOL
+              value: "http"
     
