@@ -33,7 +33,7 @@ spec:
               name: gui
           env:
             - name: VUE_APP_BASE_URL
-              value: "34.140.9.12"
+              value: 34.140.9.12
             - name: VUE_APP_BASE_PROTOCOL
               value: "http"
     
