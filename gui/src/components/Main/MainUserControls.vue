@@ -260,6 +260,7 @@ export default {
         this.fetchQuotas();
         this.refreshSolvers();
         this.refreshFiles();
+        this.getFinishedComputations();
     },
 
     methods: {
@@ -442,7 +443,7 @@ export default {
             });
         },
         getFinishedComputations(){
-            this.axios.get('http://34.140.9.12/api/solutions/computations/' + this.user.id, {
+            this.axios.get('http://34.140.9.12/api/solutions/user/' + this.user.id, {
                 headers: {
                     'Authorization': "Bearer " + this.jwt
                 }
