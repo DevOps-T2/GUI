@@ -64,7 +64,7 @@ export default {
                 let axiosJson = axiosRes.data;
                 console.log("Finished computations: ");
                 console.log(axiosJson.computation_ids);
-                this.computations = axiosJson.computation_ids;
+                this.finishedComputations = axiosJson.computation_ids;
             })
             .catch(axiosErr => {
                 console.log("Axios error: " + axiosErr);
