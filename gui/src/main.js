@@ -35,7 +35,7 @@ Vue.component('buttonAdd', require('./components/FormElements/ButtonAdd.vue').de
 Vue.component('inputText', require('./components/FormElements/InputText.vue').default);
 
 //Projekti
-Vue.component('projektData', require('./components/Main/Projekti/ProjektData.vue').default);
+Vue.component('projektData', require('./components/Main/Projekti/ProjektData.vue').default)
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
