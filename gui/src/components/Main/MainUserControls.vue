@@ -18,10 +18,6 @@
                             <div class="bi bi-arrow-repeat animate-spin inline-block" :class="fetchingPovprasevanja ? '' : 'hidden'"></div>
                         </div>
                     </button>
-                    <button @click="addNewProject()" class="leading-loose text-white font-semibold text-sm tracking-wide cursor-pointer outline-none focus:outline-none bg-green-600 hover:bg-green-700 rounded-full px-10 py-3 ">
-                        Placeholder 3
-                        <img class="inline ml-4 " src="/svgs/addProject.svg" />
-                    </button>
                 </div>
             </div>
 
@@ -119,9 +115,9 @@
                 </div>
                 <div class="px-20 pb-4">
                     <div class="flex mb-4 mt-2">
-                        <div class="pl-2">Timeout</div>
-                        <div class="pl-44">Memory limit</div>
-                        <div class="pl-36">vCPUs</div>
+                        <div class="pl-2">Timeout (in seconds)</div>
+                        <div class="pl-20">Memory limit (in Megabytes)</div>
+                        <div class="pl-4">vCPUs</div>
                     </div>
                     <div class="flex mb-4 mt-2">
                         <input id="timeoutInput" value="60" type="number" placeholder="Timeout in seconds" class="border-2 text-black border-gray-900 rounded-lg mx-2 p-2">
@@ -129,7 +125,7 @@
                         <input id="vcpusInput" value="1" type="number" placeholder="No. of vCPUs" class="border-2 text-black border-gray-900 rounded-lg mx-2 p-2">
                     </div>
                 </div>
-                <div class="px-20 pb-4">
+                <!-- <div class="px-20 pb-4">
                     <div class="flex items-center mb-4">
                         <input id="solverConf-option-1" type="radio" name="solverConf" value="Free search" class="solverConfOption h-4 w-4 border-gray-300 focus:ring-2 focus:ring-blue-300" aria-labelledby="solverConf-option-1" aria-describedby="solverConf-option-1" checked>
                         <label for="solverConf-option-1" class="text-sm font-medium text-gray-900 ml-2 block">
@@ -143,7 +139,7 @@
                             Return all solutions
                         </label>
                     </div>
-                </div>
+                </div> -->
                 <div class="flex px-20 pb-4 justify-center">
                     <button @click="scheduleExecution" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-full text-xl">
                         Execute
@@ -153,39 +149,48 @@
 
             <div class="borderShadowProject rounded-sm tracking-wide bg-white pt-4 mt-8 pb-10">
                 <div class="text-center p-6 text-2xl font-bold">
-                    Solver status
+                    Current Computations
                 </div>
-                <div class="flex justify-between border-2 border-gray-400 rounded-lg mx-20">
+                <div v-for="computation in currentComputations" :key=computation.id class="mt-2 flex justify-between border-2 border-gray-400 rounded-lg mx-20">
                     <div class="flex m-2">
                         <div class="text-black mx-2 p-2">
-                            MZN ID: 1
+                            MZN ID: {{computation.mzn_file_id}}
                         </div>
                         <div class="text-black rounded-lg mx-2 p-2">
-                            DZN ID: 1
+                            DZN ID: {{computation.dzn_file_id}}
                         </div>
                         <div class="text-black rounded-lg mx-2 p-2">
                             Status: Executing
                         </div>
                     </div>
                     <div>
-                        <button class="bg-red-400 hover:bg-red-500 text-white py-2 px-4 rounded-full m-2">
+                        <button @click="terminateComputation(computation.id)" class="bg-red-400 hover:bg-red-500 text-white py-2 px-4 rounded-full m-2">
                             Terminate
                         </button>
                     </div>
                 </div>
-                <div class="flex justify-between border-2 border-gray-400 rounded-lg mx-20 mt-3">
+            </div>
+
+            <div class="borderShadowProject rounded-sm tracking-wide bg-white pt-4 mt-8 pb-10">
+                <div class="text-center p-6 text-2xl font-bold">
+                    Finished Computations
+                </div>
+                <div v-for="computation in finishedComputations" :key=computation.id class="mt-2 flex justify-between border-2 border-gray-400 rounded-lg mx-20">
                     <div class="flex m-2">
                         <div class="text-black mx-2 p-2">
-                            MZN ID: 1
+                            MZN ID: {{computation.mzn_file_id}}
                         </div>
                         <div class="text-black rounded-lg mx-2 p-2">
-                            DZN ID: 2
+                            DZN ID: {{computation.dzn_file_id}}
                         </div>
                         <div class="text-black rounded-lg mx-2 p-2">
                             Status: Finished
                         </div>
                     </div>
                     <div>
+                        <button @click="showComputation(computation.id)" class="bg-green-400 hover:bg-green-500 text-white py-2 px-4 rounded-full m-2">
+                            Show
+                        </button>
                     </div>
                 </div>
             </div>
@@ -218,7 +223,29 @@ export default {
             solvers: [],
             mznFiles: [],
             dznFiles: [],
-            quota: null
+            quota: null,
+            currentComputations: [{
+                "id": 0,
+                "solver_ids": [
+                    "1"
+                ],
+                "mzn_file_id": "6ed4ef44-7a71-45aa-80ff-3f05dcb00b74",
+                "vcpus": "1",
+                "memory": "1",
+                "user_id": "61c030ad2318c1069de49267",
+                "dzn_file_id": "eab644de-cc32-4be0-9fd2-d5e3d54d327c"
+            }],
+            finishedComputations: [{
+                "id": 0,
+                "solver_ids": [
+                    "1"
+                ],
+                "mzn_file_id": "6ed4ef44-7a71-45aa-80ff-3f05dcb00b74",
+                "vcpus": "1",
+                "memory": "1",
+                "user_id": "61c030ad2318c1069de49267",
+                "dzn_file_id": "eab644de-cc32-4be0-9fd2-d5e3d54d327c"
+            }],
         };
     },
 
@@ -267,8 +294,9 @@ export default {
         async showFile(fileUUID){
             let fileUrl = await(await fetch('http://34.140.9.12/api/minizinc/' + this.user.id + '/' + fileUUID, {
                 headers: {
-                    Authorization: "Bearer " + this.jwt}
-                })).text();
+                    Authorization: "Bearer " + this.jwt
+                }
+            })).text();
             console.log(fileUrl);
             window.open(fileUrl.replace('"','').replace('"',''), '_blank');
         },
@@ -354,19 +382,19 @@ export default {
 
             let reqBody = {
                 solver_ids: solvers, 
-                mzn_id: mzn_id,
+                mzn_file_id: mzn_id,
                 vcpus: vcpus,
                 memory: memory,
                 //solver_options: [solverConf],
                 user_id: this.user.id
             }
 
-            if (dzn_id) reqBody["dzn_id"] = dzn_id;
+            if (dzn_id) reqBody["dzn_file_id"] = dzn_id;
 
             console.log(reqBody);
 
 
-            /* this.axios.post('http://34.140.9.12/api/scheduler/computation', reqBody, {
+            this.axios.post('http://34.140.9.12/api/scheduler/computation', reqBody, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': "Bearer " + this.jwt
@@ -379,8 +407,65 @@ export default {
             .catch(axiosErr => {
                 console.log("Axios error: " + axiosErr);
                 alert("Axios error: " + axiosErr);
-            }); */
-        }
+            });
+        },
+        getCurrentComputations(){
+            this.axios.get('http://34.140.9.12/api/scheduler/computations/' + this.user.id, {
+                headers: {
+                    'Authorization': "Bearer " + this.jwt
+                }
+            })
+            .then(axiosRes => {
+                let axiosJson = axiosRes.data;
+                console.log(axiosJson);
+                this.currentComputations = axiosJson;
+            })
+            .catch(axiosErr => {
+                console.log("Axios error: " + axiosErr);
+                alert("Axios error: " + axiosErr);
+            });
+        },
+        terminateComputation(computationId){
+            this.axios.delete('http://34.140.9.12/api/scheduler/computation/' + computationId, {
+                headers: {
+                    'Authorization': "Bearer " + this.jwt
+                }
+            })
+            .then(axiosRes => {
+                let axiosJson = axiosRes.data;
+                console.log(axiosJson);
+                this.finishedComputations = axiosJson;
+            })
+            .catch(axiosErr => {
+                console.log("Axios error: " + axiosErr);
+                alert("Axios error: " + axiosErr);
+            });
+        },
+        getFinishedComputations(){
+            this.axios.get('http://34.140.9.12/api/solutions/computations/' + this.user.id, {
+                headers: {
+                    'Authorization': "Bearer " + this.jwt
+                }
+            })
+            .then(axiosRes => {
+                let axiosJson = axiosRes.data;
+                console.log(axiosJson);
+                this.computations = axiosJson;
+            })
+            .catch(axiosErr => {
+                console.log("Axios error: " + axiosErr);
+                alert("Axios error: " + axiosErr);
+            });
+        },
+        async showComputation(computationId){
+            let fileUrl = await(await fetch('http://34.140.9.12/api/solutions/computations' + computationId, {
+                headers: {
+                    Authorization: "Bearer " + this.jwt
+                }
+            })).text();
+            console.log(fileUrl);
+            window.open(fileUrl.replace('"','').replace('"',''), '_blank');
+        },
     }
 }
 </script>

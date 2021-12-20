@@ -1,11 +1,11 @@
 <template>
     <div v-if="quota != null">
     <ul class="list-disc">
-        <li>
-            {{ quota.memory }}M
+        <li class="my-2">
+            Memory: <span class="font-bold">{{ quota.memory }}</span> MB
         </li>
-        <li>
-             {{ quota.vCpu }}vCPU
+        <li class="my-2">
+            vCPUs: <span class="font-bold">{{ quota.vCpu }}</span> vCPUs
         </li>
     </ul>
     </div>
