@@ -55,13 +55,13 @@ export default {
     },
 
     watch: {
-        user(val) {
-            if(val == null) {
-                return;
-            }
-
+        user() {
             this.fetchQuota();
         }
+    },
+
+    mounted() {
+        this.fetchQuota();
     },
 
     methods: {
@@ -74,6 +74,7 @@ export default {
          }).then( response => {
              this.quota = response.data
          }).catch( () => {
+             this.quota = null;
              alert("Could not find resources for this user.")
          })
         },

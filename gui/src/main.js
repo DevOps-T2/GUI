@@ -14,7 +14,9 @@ import MainProfile from './components/MainProfile.vue';
 import MainRegister from './components/MainRegister.vue';
 import MainDashboard from './components/MainDashboard.vue';
 import MainUserControls from './components/Main/MainUserControls.vue';
-import AdminPanel from './components/Main/AdminPanel.vue';
+import UserManagement from './components/Main/UserManagement.vue';
+import ManageDatasets from './components/Main/ManageDatasets.vue';
+import SolverManagement from './components/Main/SolverManagement.vue';
 
 // Povprasevanje
 
@@ -66,6 +68,11 @@ const router = new VueRouter({
             component: MainDashboard
         },
         {
+            path: '/datasets',
+            name: 'ManageDatasets',
+            component: ManageDatasets
+        },
+        {
             path: '/profile/:uid?',
             name: 'MainProfile',
             component: MainProfile
@@ -76,9 +83,14 @@ const router = new VueRouter({
             component: MainUserControls
         },
         {
-            path: '/adminPanel',
-            name: 'AdminPanel',
-            component: AdminPanel
+            path: '/admin/users',
+            name: 'UserManagement',
+            component: UserManagement
+        },
+        {
+            path: '/admin/solvers',
+            name: 'SolverManagement',
+            component: SolverManagement
         }
     ]
 });
@@ -131,6 +143,9 @@ router.beforeResolve((to, from, next) => {
 
 
 Vue.config.productionTip = false;
+
+
+window.Bus = new Vue();
 
 new Vue({
     el: '#app',

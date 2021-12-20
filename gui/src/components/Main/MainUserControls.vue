@@ -3,7 +3,7 @@
     <!-- Main Body -->
     <div class="mt-4 mb-4 col-span-2">
         <!-- Main Content -->
-        <div class="text-left w-full pl-40 mt-36 ml-auto mr-auto">
+        <div class="text-left w-full mt-36 ml-auto mr-auto">
             <div class="flex justify-between mb-9">
                 <div class="text-3xl leading-loose font-medium mainHeading">
                     Dashboard
