@@ -1,9 +1,6 @@
 <template>
 <div>
-    <!-- Main Body -->
-    <div class="mt-4 mb-4 col-span-2">
-        <!-- Main Content -->
-        <div class="text-left w-full mt-36 ml-auto mr-auto">
+
             <div class="borderShadowProject rounded-sm tracking-wide bg-white pt-4">
                 <div class="text-center p-6 text-xl">
                     MZN instances
@@ -63,8 +60,7 @@
                     <label for="dznUpload" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Upload</label>
                 </div>
             </div>
-        </div>
-    </div>
+
 </div>
 </template>
 
