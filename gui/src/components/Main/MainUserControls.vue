@@ -153,39 +153,24 @@
 
             <div class="borderShadowProject rounded-sm tracking-wide bg-white pt-4 mt-8 pb-10">
                 <div class="text-center p-6 text-2xl font-bold">
-                    Solver status
+                    Computations
                 </div>
-                <div class="flex justify-between border-2 border-gray-400 rounded-lg mx-20">
+                <div v-for="computation in currentComputations" :key=computation.id class="flex justify-between border-2 border-gray-400 rounded-lg mx-20">
                     <div class="flex m-2">
                         <div class="text-black mx-2 p-2">
-                            MZN ID: 1
+                            MZN ID: {{computation.mzn_file_id}}
                         </div>
                         <div class="text-black rounded-lg mx-2 p-2">
-                            DZN ID: 1
+                            DZN ID: {{computation.dzn_file_id}}
                         </div>
                         <div class="text-black rounded-lg mx-2 p-2">
                             Status: Executing
                         </div>
                     </div>
                     <div>
-                        <button class="bg-red-400 hover:bg-red-500 text-white py-2 px-4 rounded-full m-2">
+                        <button @click="terminateComputation(computation.id)" class="bg-red-400 hover:bg-red-500 text-white py-2 px-4 rounded-full m-2">
                             Terminate
                         </button>
-                    </div>
-                </div>
-                <div class="flex justify-between border-2 border-gray-400 rounded-lg mx-20 mt-3">
-                    <div class="flex m-2">
-                        <div class="text-black mx-2 p-2">
-                            MZN ID: 1
-                        </div>
-                        <div class="text-black rounded-lg mx-2 p-2">
-                            DZN ID: 2
-                        </div>
-                        <div class="text-black rounded-lg mx-2 p-2">
-                            Status: Finished
-                        </div>
-                    </div>
-                    <div>
                     </div>
                 </div>
             </div>
@@ -218,7 +203,18 @@ export default {
             solvers: [],
             mznFiles: [],
             dznFiles: [],
-            quota: null
+            quota: null,
+            currentComputations: [{
+                "id": 0,
+                "solver_ids": [
+                    "1"
+                ],
+                "mzn_file_id": "6ed4ef44-7a71-45aa-80ff-3f05dcb00b74",
+                "vcpus": "1",
+                "memory": "1",
+                "user_id": "61c030ad2318c1069de49267",
+                "dzn_file_id": "eab644de-cc32-4be0-9fd2-d5e3d54d327c"
+            }],
         };
     },
 
@@ -354,19 +350,19 @@ export default {
 
             let reqBody = {
                 solver_ids: solvers, 
-                mzn_id: mzn_id,
+                mzn_file_id: mzn_id,
                 vcpus: vcpus,
                 memory: memory,
                 //solver_options: [solverConf],
                 user_id: this.user.id
             }
 
-            if (dzn_id) reqBody["dzn_id"] = dzn_id;
+            if (dzn_id) reqBody["dzn_file_id"] = dzn_id;
 
             console.log(reqBody);
 
 
-            /* this.axios.post('http://34.140.9.12/api/scheduler/computation', reqBody, {
+            this.axios.post('http://34.140.9.12/api/scheduler/computation', reqBody, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': "Bearer " + this.jwt
@@ -379,7 +375,38 @@ export default {
             .catch(axiosErr => {
                 console.log("Axios error: " + axiosErr);
                 alert("Axios error: " + axiosErr);
-            }); */
+            });
+        },
+        getComputations(){
+            this.axios.get('http://34.140.9.12/api/scheduler/computations/' + this.user.id, {
+                headers: {
+                    'Authorization': "Bearer " + this.jwt
+                }
+            })
+            .then(axiosRes => {
+                let axiosJson = axiosRes.data;
+                console.log(axiosJson);
+                this.executions = axiosJson;
+            })
+            .catch(axiosErr => {
+                console.log("Axios error: " + axiosErr);
+                alert("Axios error: " + axiosErr);
+            });
+        },
+        terminateComputation(computationId){
+            this.axios.delete('http://34.140.9.12/api/scheduler/computation/' + computationId, {
+                headers: {
+                    'Authorization': "Bearer " + this.jwt
+                }
+            })
+            .then(axiosRes => {
+                let axiosJson = axiosRes.data;
+                console.log(axiosJson);
+            })
+            .catch(axiosErr => {
+                console.log("Axios error: " + axiosErr);
+                alert("Axios error: " + axiosErr);
+            });
         }
     }
 }
