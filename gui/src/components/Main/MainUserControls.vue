@@ -42,7 +42,7 @@
                         Show
                     </button>
 
-                    <input type="file" :id="'mznUpdate' + index" @change="updateMznFile(mznFile.fileUUID, 'mznUpdate' + index)" class="hidden">
+                    <input type="file" :id="'mznUpdate' + index" @change="uploadFile('mzn', 'mznUpdate' + index, mznFile.fileUUID)" class="hidden">
                     <label :for="'mznUpdate' + index" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Update</label>
                     
                     <button @click="deleteFile(mznFile.fileUUID)" class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
@@ -50,7 +50,7 @@
                     </button>
                 </div>
                 <div class="flex px-20 pb-4 pt-6 justify-center border-t">
-                    <input type="file" id="mznUpload" @change="uploadMzn" class="hidden">
+                    <input type="file" id="mznUpload" @change="uploadFile('mzn', 'mznUpload')" class="hidden">
                     <label for="mznUpload" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Upload</label>
                 </div>
             </div>
@@ -72,7 +72,7 @@
                         Show
                     </button>
 
-                    <input type="file" :id="'dznUpdate' + index" @change="updateDznFile(dznFile.fileUUID, 'dznUpdate' + index)" class="hidden">
+                    <input type="file" :id="'dznUpdate' + index" @change="uploadFile('dzn', 'dznUpdate' + index, dznFile.fileUUID)" class="hidden">
                     <label :for="'dznUpdate' + index" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Update</label>
                     
                     <button @click="deleteFile(dznFile.fileUUID)" class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
@@ -80,7 +80,7 @@
                     </button>
                 </div>
                 <div class="flex px-20 pb-4 pt-6 justify-center border-t">
-                    <input type="file" id="dznUpload" @change="uploadDzn" class="hidden">
+                    <input type="file" id="dznUpload" @change="uploadFile('dzn', 'dznUpload')" class="hidden">
                     <label for="dznUpload" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Upload</label>
                 </div>
             </div>
@@ -198,6 +198,7 @@ export default {
 
     created() {
         this.user = this.$store.getters.getUser;
+        this.jwt = this.$store.getters.getJwt;
     },
 
     mounted(){
@@ -209,7 +210,10 @@ export default {
         async setTempData() {
         },
         async refreshSolvers() {
-            //this.solvers = await (await fetch('http://34.140.9.12/api/solvers/Solvers')).json();
+            this.solvers = await (await fetch('http://34.140.9.12/api/solvers/Solvers', {
+                headers: {
+                    Authorization: "Bearer " + this.jwt}
+                })).json();
         },
         async refreshFiles() {
             let files = await (await fetch('http://34.140.9.12/api/minizinc/' + this.user.id)).json();
@@ -221,18 +225,33 @@ export default {
             }
         },
         async showFile(fileUUID){
-            console.log(fileUUID);
             let fileUrl = await(await fetch('http://34.140.9.12/api/minizinc/' + this.user.id + '/' + fileUUID)).text();
             console.log(fileUrl);
             window.open(fileUrl.replace('"','').replace('"',''), '_blank');
         },
-        async updateMznFile(fileUUID, id){
-            let googleFileData = await (await fetch(`http://34.140.9.12/api/minizinc/upload?userID=${this.user.id}&fileUUID=${fileUUID}`)).json();
+        async uploadFile(type, id, fileUUID){
+            let googleFileData;
+            if(fileUUID){
+                googleFileData = await (await fetch(`http://34.140.9.12/api/minizinc/upload?userID=${this.user.id}&fileUUID=${fileUUID}`, {
+                headers: {
+                    Authorization: "Bearer " + this.jwt}
+                })).json();
+            }
+            else{
+                googleFileData = await (await fetch('http://34.140.9.12/api/minizinc/upload', {
+                headers: {
+                    Authorization: "Bearer " + this.jwt}
+                })).json();
+            }
             let formData = new FormData();
-            let mznFile = document.querySelector('#' + id);
-            if(!mznFile.files[0]) {alert("No file"); return;}
-            if(!mznFile.files[0].name.includes(".mzn")) {alert("Not a mzn file"); return;}
-            formData.append(mznFile.files[0].name, mznFile.files[0]);
+            let file = document.querySelector('#' + id);
+
+            if(!file.files[0]) {alert("No file"); return;}
+
+            if(type === "mzn" && !file.files[0].name.includes(".mzn")){ alert("Not a mzn file"); return; }
+            else if(type === "dzn" && !file.files[0].name.includes(".dzn")){ alert("Not a dzn file"); return; }
+
+            formData.append(file.files[0].name, file.files[0]);
 
             this.axios.put(googleFileData.url, formData, {
                 headers: {
@@ -242,143 +261,38 @@ export default {
             .then(axiosRes => {
                 console.log("google storage response: ");
                 console.log(axiosRes);
-                this.axios.post('http://34.140.9.12/api/minizinc/upload', {userID: this.user.id, fileName: mznFile.files[0].name, fileUUID: googleFileData.fileUUID}, {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(axiosRes => {
-                    let axiosJson = axiosRes.data;
-                    console.log(axiosJson);
-                    mznFile.value = "";
-                    this.refreshFiles();
-                })
-                .catch(axiosErr => {
-                    console.log("Axios error: " + axiosErr);
-                    alert("Axios error: " + axiosErr);
-                });
-            })
-            .catch(axiosErr => {
-                console.log("Axios error: " + axiosErr);
-                alert("Axios error: " + axiosErr);
-            });
-        },
-        async updateDznFile(fileUUID, id){
-            let googleFileData = await (await fetch(`http://34.140.9.12/api/minizinc/upload?userID=${this.user.id}&fileUUID=${fileUUID}`)).json();
-            let formData = new FormData();
-            let dznFile = document.querySelector('#' + id);
-            if(!dznFile.files[0]) {alert("No file"); return;}
-            if(!dznFile.files[0].name.includes(".dzn")) {alert("Not a dzn file"); return;}
-            formData.append(dznFile.files[0].name, dznFile.files[0]);
 
-            this.axios.put(googleFileData.url, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
-            .then(axiosRes => {
-                console.log("google storage response: ");
-                console.log(axiosRes);
-                this.axios.post('http://34.140.9.12/api/minizinc/upload', {userID: this.user.id, fileName: dznFile.files[0].name, fileUUID: googleFileData.fileUUID}, {
+                this.axios.post('http://34.140.9.12/api/minizinc/upload', {userID: this.user.id, fileName: file.files[0].name, fileUUID: googleFileData.fileUUID}, {
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': "Bearer " + this.jwt
                     }
                 })
                 .then(axiosRes => {
                     let axiosJson = axiosRes.data;
                     console.log(axiosJson);
-                    dznFile.value = "";
+                    file.value = "";
                     this.refreshFiles();
                 })
                 .catch(axiosErr => {
                     console.log("Axios error: " + axiosErr);
+                    file.value = "";
                     alert("Axios error: " + axiosErr);
                 });
+
             })
             .catch(axiosErr => {
                 console.log("Axios error: " + axiosErr);
+                file.value = "";
                 alert("Axios error: " + axiosErr);
             });
+
         },
         async deleteFile(fileUUID){
             console.log(fileUUID);
             let response = await fetch('http://34.140.9.12/api/minizinc/' + this.user.id + '/' + fileUUID, {method: "DELETE"});
             console.log(response);
             this.refreshFiles();
-        },
-        async uploadMzn() {
-            let googleFileData = await (await fetch('http://34.140.9.12/api/minizinc/upload')).json();
-            let formData = new FormData();
-            let mznFile = document.querySelector('#mznUpload');
-            if(!mznFile.files[0]) {alert("No file"); return;}
-            if(!mznFile.files[0].name.includes(".mzn")) {alert("Not a mzn file"); return;}
-            formData.append(mznFile.files[0].name, mznFile.files[0]);
-
-            this.axios.put(googleFileData.url, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
-            .then(axiosRes => {
-                console.log("google storage response: ");
-                console.log(axiosRes);
-                this.axios.post('http://34.140.9.12/api/minizinc/upload', {userID: this.user.id, fileName: mznFile.files[0].name, fileUUID: googleFileData.fileUUID}, {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(axiosRes => {
-                    let axiosJson = axiosRes.data;
-                    console.log(axiosJson);
-                    mznFile.value = "";
-                    this.refreshFiles();
-                })
-                .catch(axiosErr => {
-                    console.log("Axios error: " + axiosErr);
-                    alert("Axios error: " + axiosErr);
-                });
-            })
-            .catch(axiosErr => {
-                console.log("Axios error: " + axiosErr);
-                alert("Axios error: " + axiosErr);
-            });
-        },
-        async uploadDzn() {
-            let googleFileData = await (await fetch('http://34.140.9.12/api/minizinc/upload')).json();
-            let formData = new FormData();
-            let dznFile = document.querySelector('#dznUpload');
-            if(!dznFile.files[0]) {alert("No file"); return;}
-            if(!dznFile.files[0].name.includes(".dzn")) {alert("Not a dzn file"); return;}
-            formData.append(dznFile.files[0].name, dznFile.files[0]);
-
-            this.axios.put(googleFileData.url, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
-            .then(axiosRes => {
-                console.log("google storage response: ");
-                console.log(axiosRes);
-                this.axios.post('http://34.140.9.12/api/minizinc/upload', {userID: this.user.id, fileName: dznFile.files[0].name, fileUUID: googleFileData.fileUUID}, {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(axiosRes => {
-                    let axiosJson = axiosRes.data;
-                    console.log(axiosJson);
-                    dznFile.value = "";
-                    this.refreshFiles();
-                })
-                .catch(axiosErr => {
-                    console.log("Axios error: " + axiosErr);
-                    alert("Axios error: " + axiosErr);
-                });
-            })
-            .catch(axiosErr => {
-                console.log("Axios error: " + axiosErr);
-                alert("Axios error: " + axiosErr);
-            });
         },
     }
 }
