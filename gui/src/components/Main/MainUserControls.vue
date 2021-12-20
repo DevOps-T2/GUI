@@ -18,10 +18,6 @@
                             <div class="bi bi-arrow-repeat animate-spin inline-block" :class="fetchingPovprasevanja ? '' : 'hidden'"></div>
                         </div>
                     </button>
-                    <button @click="addNewProject()" class="leading-loose text-white font-semibold text-sm tracking-wide cursor-pointer outline-none focus:outline-none bg-green-600 hover:bg-green-700 rounded-full px-10 py-3 ">
-                        Placeholder 3
-                        <img class="inline ml-4 " src="/svgs/addProject.svg" />
-                    </button>
                 </div>
             </div>
 
@@ -129,7 +125,7 @@
                         <input id="vcpusInput" value="1" type="number" placeholder="No. of vCPUs" class="border-2 text-black border-gray-900 rounded-lg mx-2 p-2">
                     </div>
                 </div>
-                <div class="px-20 pb-4">
+                <!-- <div class="px-20 pb-4">
                     <div class="flex items-center mb-4">
                         <input id="solverConf-option-1" type="radio" name="solverConf" value="Free search" class="solverConfOption h-4 w-4 border-gray-300 focus:ring-2 focus:ring-blue-300" aria-labelledby="solverConf-option-1" aria-describedby="solverConf-option-1" checked>
                         <label for="solverConf-option-1" class="text-sm font-medium text-gray-900 ml-2 block">
@@ -143,7 +139,7 @@
                             Return all solutions
                         </label>
                     </div>
-                </div>
+                </div> -->
                 <div class="flex px-20 pb-4 justify-center">
                     <button @click="scheduleExecution" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-full text-xl">
                         Execute
@@ -155,7 +151,7 @@
                 <div class="text-center p-6 text-2xl font-bold">
                     Current Computations
                 </div>
-                <div v-for="computation in currentComputations" :key=computation.id class="flex justify-between border-2 border-gray-400 rounded-lg mx-20">
+                <div v-for="computation in currentComputations" :key=computation.id class="mt-2 flex justify-between border-2 border-gray-400 rounded-lg mx-20">
                     <div class="flex m-2">
                         <div class="text-black mx-2 p-2">
                             MZN ID: {{computation.mzn_file_id}}
@@ -179,7 +175,7 @@
                 <div class="text-center p-6 text-2xl font-bold">
                     Finished Computations
                 </div>
-                <div v-for="computation in finishedComputations" :key=computation.id class="flex justify-between border-2 border-gray-400 rounded-lg mx-20">
+                <div v-for="computation in finishedComputations" :key=computation.id class="mt-2 flex justify-between border-2 border-gray-400 rounded-lg mx-20">
                     <div class="flex m-2">
                         <div class="text-black mx-2 p-2">
                             MZN ID: {{computation.mzn_file_id}}
