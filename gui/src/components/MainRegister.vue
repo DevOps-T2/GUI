@@ -65,7 +65,7 @@ import { fetchMixins } from '@/mixins/fetchMixins'
                 }
 
                 if(process.env.NODE_ENV == "development"){
-                    this.axios.post('http://localhost/api/' + 'register', registerParameters)
+                    this.axios.post('http://'+'34.140.9.12'+'/api/users/register', registerParameters)
                     .then(axiosRes => {
                         if (axiosRes.data.message == 'Registration successful') {
                             console.log("Register success");

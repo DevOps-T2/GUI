@@ -11,9 +11,9 @@
                     </button>
                     <button @click="refreshSolvers()" class="mr-4 leading-loose text-white font-semibold text-sm tracking-wide cursor-pointer outline-none focus:outline-none bg-green-600 hover:bg-green-700 rounded-full px-10 py-3 ">
                         Refresh Solvers
-                        <div class="inline">
-                            <div class="bi bi-arrow-repeat animate-spin inline-block" :class="fetchingPovprasevanja ? '' : 'hidden'"></div>
-                        </div>
+                    </button>
+                    <button @click="getCurrentComputations();getFinishedComputations();" class="mr-4 leading-loose text-white font-semibold text-sm tracking-wide cursor-pointer outline-none focus:outline-none bg-green-600 hover:bg-green-700 rounded-full px-10 py-3 ">
+                        Refresh Computations
                     </button>
                 </div>
             </div>
@@ -122,7 +122,7 @@
                         <input id="vcpusInput" value="1" type="number" placeholder="No. of vCPUs" class="border-2 text-black border-gray-900 rounded-lg mx-2 p-2">
                     </div>
                 </div>
-                <!-- <div class="px-20 pb-4">
+                <div class="px-20 pb-4">
                     <div class="flex items-center mb-4">
                         <input id="solverConf-option-1" type="radio" name="solverConf" value="Free search" class="solverConfOption h-4 w-4 border-gray-300 focus:ring-2 focus:ring-blue-300" aria-labelledby="solverConf-option-1" aria-describedby="solverConf-option-1" checked>
                         <label for="solverConf-option-1" class="text-sm font-medium text-gray-900 ml-2 block">
@@ -136,7 +136,7 @@
                             Return all solutions
                         </label>
                     </div>
-                </div> -->
+                </div>
                 <div class="flex px-20 pb-4 justify-center">
                     <button @click="scheduleExecution" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-full text-xl">
                         Execute
@@ -218,28 +218,8 @@ export default {
             mznFiles: [],
             dznFiles: [],
             quota: null,
-            currentComputations: [{
-                "id": 0,
-                "solver_ids": [
-                    "1"
-                ],
-                "mzn_file_id": "6ed4ef44-7a71-45aa-80ff-3f05dcb00b74",
-                "vcpus": "1",
-                "memory": "1",
-                "user_id": "61c030ad2318c1069de49267",
-                "dzn_file_id": "eab644de-cc32-4be0-9fd2-d5e3d54d327c"
-            }],
-            finishedComputations: [{
-                "id": 0,
-                "solver_ids": [
-                    "1"
-                ],
-                "mzn_file_id": "6ed4ef44-7a71-45aa-80ff-3f05dcb00b74",
-                "vcpus": "1",
-                "memory": "1",
-                "user_id": "61c030ad2318c1069de49267",
-                "dzn_file_id": "eab644de-cc32-4be0-9fd2-d5e3d54d327c"
-            }],
+            currentComputations: [],
+            finishedComputations: [],
         };
     },
 
@@ -254,6 +234,7 @@ export default {
         this.fetchQuotas();
         this.refreshSolvers();
         this.refreshFiles();
+        this.getCurrentComputations();
         this.getFinishedComputations();
     },
 
@@ -366,12 +347,12 @@ export default {
         async scheduleExecution(){
             let mzn_id = document.querySelector("#mznSelect").value;
             let dzn_id = document.querySelector("#dznSelect").value || null;
-            //let timeout = document.querySelector("#timeoutInput").value;
+            let timeout = document.querySelector("#timeoutInput").value;
             let memory = document.querySelector("#memoryInput").value;
             let vcpus = document.querySelector("#vcpusInput").value;
 
             let solvers = Array.from(document.querySelectorAll(".solverOption")).filter(el => el.checked).map(el => el.value);
-            //let solverConf = document.querySelector('input[name="solverConf"]:checked').value;
+            let solverConf = document.querySelector('input[name="solverConf"]:checked').value;
 
             if (solvers.length == 0) { alert("No solvers selected"); return;}
 
@@ -380,7 +361,8 @@ export default {
                 mzn_file_id: mzn_id,
                 vcpus: vcpus,
                 memory: memory,
-                //solver_options: [solverConf],
+                timeout_seconds: timeout,
+                solver_options: solverConf,
                 user_id: this.user.id
             }
 
@@ -412,6 +394,7 @@ export default {
             })
             .then(axiosRes => {
                 let axiosJson = axiosRes.data;
+                console.log("Current computations: ");
                 console.log(axiosJson);
                 this.currentComputations = axiosJson;
             })
@@ -444,8 +427,9 @@ export default {
             })
             .then(axiosRes => {
                 let axiosJson = axiosRes.data;
-                console.log(axiosJson);
-                this.computations = axiosJson;
+                console.log("Finished computations: ");
+                console.log(axiosJson.computation_ids);
+                this.computations = axiosJson.computation_ids;
             })
             .catch(axiosErr => {
                 console.log("Axios error: " + axiosErr);
