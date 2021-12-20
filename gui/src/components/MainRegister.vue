@@ -12,9 +12,10 @@
             <div class="mt-4 border border-gray-200 rounded-md passwordWrapper">
                 <input type="text" id="inputName" name="name" placeholder="Name" class="p-5 placeholder-gray-500 text-gray-500 relative bg-white rounded border-0 outline-none focus:outline-none focus:shadow-sm w-full" required>
             </div>
-            <div class="mt-4 border border-gray-200 rounded-md passwordWrapper">
-                <input type="text" id="inputRole" name="role" placeholder="Role" class="p-5 placeholder-gray-500 text-gray-500 relative bg-white rounded border-0 outline-none focus:outline-none focus:shadow-sm w-full" required>
-            </div>
+            <select id="inputRole" value="user" style="text-transform: capitalize" class="mt-4 block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+            </select>
             <button @click="register()" class="flex justify-center w-full outline-none focus:outline-none bg-green-600 hover:bg-green-700 text-sm text-white font-semibold tracking-wide py-5 mt-4 mb-4 rounded-full">
                 Register
             </button>
