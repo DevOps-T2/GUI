@@ -96,42 +96,56 @@
 
             <div class="borderShadowProject rounded-sm tracking-wide bg-white pt-4 mt-8">
                 <div class="text-center p-6 text-2xl font-bold">
-                    Execute
+                    Schedule execution
                 </div>
                 <div class="flex px-20 py-4 justify-between border-t">
-                    <select style="text-transform: capitalize" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
-                        <option v-for="(mznFile, index) of mznFiles" :key="mznFile.fileUUID" style="text-transform: capitalize">ID: {{index}} {{mznFile.fileName}}</option>
+                    <select id="mznSelect" style="text-transform: capitalize" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                        <option v-for="(mznFile, index) of mznFiles" :key="mznFile.fileUUID" :value="mznFile.fileUUID" style="text-transform: capitalize">ID: {{index}} {{mznFile.fileName}}</option>
                     </select>
-                    <select style="text-transform: capitalize" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
-                        <option value="none">None</option>
-                        <option :value="dznFile.fileUUID" v-for="(dznFile, index) of dznFiles" :key="dznFile.fileUUID" style="text-transform: capitalize">ID: {{index}} {{dznFile.fileName}}</option>
-                    </select>
-                    <select style="text-transform: capitalize" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
-                        <option v-for="solver of solvers" :key="solver.id" style="text-transform: capitalize">{{solver.name}}</option>
+
+                    <select id="dznSelect" style="text-transform: capitalize" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="">None</option>
+                        <option v-for="(dznFile, index) of dznFiles" :value="dznFile.fileUUID" :key="dznFile.fileUUID" style="text-transform: capitalize">ID: {{index}} {{dznFile.fileName}}</option>
                     </select>
                 </div>
-                <div class="flex px-20 pb-4">
-                    <input type="number" placeholder="Timeout in seconds" class="border-2 text-black border-gray-900 rounded-lg mx-2 p-2">
-                    <input type="number" placeholder="Memory limit in MB" class="border-2 text-black border-gray-900 rounded-lg mx-2 p-2">
-                    <input type="number" placeholder="No. of vCPUs" class="border-2 text-black border-gray-900 rounded-lg mx-2 p-2">
+                <div class="px-20 pb-4">
+                    Solvers:
+                    <div v-for="(solver, index) of solvers" :key="solver.id" class="flex items-center mb-4 mt-2">
+                        <input :id="'solver-option-' + index" type="checkbox" name="solver" :value="solver.id" class="solverOption h-4 w-4 border-gray-300 focus:ring-2 focus:ring-blue-300" aria-labelledby="solver-option" aria-describedby="solver-option">
+                        <label :for="'solver-option-' + index" class="solverOption text-sm font-medium text-gray-900 ml-2 block" style="text-transform: capitalize">
+                            {{solver.name}}
+                        </label>
+                    </div>
+                </div>
+                <div class="px-20 pb-4">
+                    <div class="flex mb-4 mt-2">
+                        <div class="pl-2">Timeout</div>
+                        <div class="pl-44">Memory limit</div>
+                        <div class="pl-36">vCPUs</div>
+                    </div>
+                    <div class="flex mb-4 mt-2">
+                        <input id="timeoutInput" value="60" type="number" placeholder="Timeout in seconds" class="border-2 text-black border-gray-900 rounded-lg mx-2 p-2">
+                        <input id="memoryInput" value="300" type="number" placeholder="Memory limit in MB" class="border-2 text-black border-gray-900 rounded-lg mx-2 p-2">
+                        <input id="vcpusInput" value="1" type="number" placeholder="No. of vCPUs" class="border-2 text-black border-gray-900 rounded-lg mx-2 p-2">
+                    </div>
                 </div>
                 <div class="px-20 pb-4">
                     <div class="flex items-center mb-4">
-                        <input id="solverConf-option-1" type="radio" name="solverConf" value="Free search" class="h-4 w-4 border-gray-300 focus:ring-2 focus:ring-blue-300" aria-labelledby="solverConf-option-1" aria-describedby="solverConf-option-1" checked>
+                        <input id="solverConf-option-1" type="radio" name="solverConf" value="Free search" class="solverConfOption h-4 w-4 border-gray-300 focus:ring-2 focus:ring-blue-300" aria-labelledby="solverConf-option-1" aria-describedby="solverConf-option-1" checked>
                         <label for="solverConf-option-1" class="text-sm font-medium text-gray-900 ml-2 block">
                             Free search
                         </label>
                     </div>
 
                     <div class="flex items-center mb-4">
-                        <input id="solverConf-option-2" type="radio" name="solverConf" value="Return all solutions" class="h-4 w-4 border-gray-300 focus:ring-2 focus:ring-blue-300" aria-labelledby="solverConf-option-2" aria-describedby="solverConf-option-2">
+                        <input id="solverConf-option-2" type="radio" name="solverConf" value="Return all solutions" class="solverConfOption h-4 w-4 border-gray-300 focus:ring-2 focus:ring-blue-300" aria-labelledby="solverConf-option-2" aria-describedby="solverConf-option-2">
                         <label for="solverConf-option-2" class="text-sm font-medium text-gray-900 ml-2 block">
                             Return all solutions
                         </label>
                     </div>
                 </div>
                 <div class="flex px-20 pb-4 justify-center">
-                    <button class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-full text-xl">
+                    <button @click="scheduleExecution" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-full text-xl">
                         Execute
                     </button>
                 </div>
@@ -274,13 +288,14 @@ export default {
             }
             let formData = new FormData();
             let file = document.querySelector('#' + id);
-
             if(!file.files[0]) {alert("No file"); return;}
+            let filename = file.files[0].name;
 
             if(type === "mzn" && !file.files[0].name.includes(".mzn")){ alert("Not a mzn file"); return; }
             else if(type === "dzn" && !file.files[0].name.includes(".dzn")){ alert("Not a dzn file"); return; }
 
-            formData.append(file.files[0].name, file.files[0]);
+            formData.append(filename, file.files[0]);
+            file.value = "";
 
             this.axios.put(googleFileData.url, formData, {
                 headers: {
@@ -291,7 +306,7 @@ export default {
                 console.log("google storage response: ");
                 console.log(axiosRes);
 
-                this.axios.post('http://34.140.9.12/api/minizinc/upload', {userID: this.user.id, fileName: file.files[0].name, fileUUID: googleFileData.fileUUID}, {
+                this.axios.post('http://34.140.9.12/api/minizinc/upload', {userID: this.user.id, fileName: filename, fileUUID: googleFileData.fileUUID}, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': "Bearer " + this.jwt
@@ -300,19 +315,16 @@ export default {
                 .then(axiosRes => {
                     let axiosJson = axiosRes.data;
                     console.log(axiosJson);
-                    file.value = "";
                     this.refreshFiles();
                 })
                 .catch(axiosErr => {
                     console.log("Axios error: " + axiosErr);
-                    file.value = "";
                     alert("Axios error: " + axiosErr);
                 });
 
             })
             .catch(axiosErr => {
                 console.log("Axios error: " + axiosErr);
-                file.value = "";
                 alert("Axios error: " + axiosErr);
             });
 
@@ -328,6 +340,47 @@ export default {
             console.log(response);
             this.refreshFiles();
         },
+        async scheduleExecution(){
+            let mzn_id = document.querySelector("#mznSelect").value;
+            let dzn_id = document.querySelector("#dznSelect").value || null;
+            //let timeout = document.querySelector("#timeoutInput").value;
+            let memory = document.querySelector("#memoryInput").value;
+            let vcpus = document.querySelector("#vcpusInput").value;
+
+            let solvers = Array.from(document.querySelectorAll(".solverOption")).filter(el => el.checked).map(el => el.value);
+            //let solverConf = document.querySelector('input[name="solverConf"]:checked').value;
+
+            if (solvers.length == 0) { alert("No solvers selected"); return;}
+
+            let reqBody = {
+                solver_ids: solvers, 
+                mzn_id: mzn_id,
+                vcpus: vcpus,
+                memory: memory,
+                //solver_options: [solverConf],
+                user_id: this.user.id
+            }
+
+            if (dzn_id) reqBody["dzn_id"] = dzn_id;
+
+            console.log(reqBody);
+
+
+            /* this.axios.post('http://34.140.9.12/api/scheduler/computation', reqBody, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': "Bearer " + this.jwt
+                }
+            })
+            .then(axiosRes => {
+                let axiosJson = axiosRes.data;
+                console.log(axiosJson);
+            })
+            .catch(axiosErr => {
+                console.log("Axios error: " + axiosErr);
+                alert("Axios error: " + axiosErr);
+            }); */
+        }
     }
 }
 </script>
