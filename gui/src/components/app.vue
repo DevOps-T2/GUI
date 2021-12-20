@@ -1,8 +1,15 @@
 <template>
-    <div class=" main-grid-container grid grid-cols-3 lg:grid-cols-7">
-        <sidebarLeft class="sidebarLeft min-w-full shadow-sideBarShadow"></sidebarLeft>
-        <router-view :class="[user ? 'lg:col-span-5 bg-gray-100' : 'col-span-2 lg:col-span-7']" class="main-content" ></router-view>
-        <div class="sidebarRight min-w-full bg-gray-100"></div>
+    <div class="relative flex w-screen overflow-hidden h-screen">
+        <sidebarLeft class="overflow-y-auto"  style="width: 300px;"></sidebarLeft>
+        <div class="w-full overflow-y-auto px-32">
+                <!-- Main Body -->
+            <div class="mt-4 mb-4 col-span-2">
+                <!-- Main Content -->
+                <div class="text-left w-full py-32 ml-auto mr-auto">
+                    <router-view ></router-view>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 

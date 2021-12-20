@@ -1,17 +1,18 @@
 <template>
-  <div v-if="user" class="">
-    <div class="ml-2 flex flex-col h-screen pb-8 bg-white border-r dark:bg-gray-800 dark:border-gray-600">
-      <div class="text-xl font-semibold text-left mt-6 mb-8 ml-6 text-green-600">PORTAL</div>
-
-      <div class="flex mt-3 cursor-default ml-4">
-        <img class="object-cover w-16 h-16 mr-2 rounded-full" src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="avatar">
+  <div v-if="user">
+    <div class="ml-2 flex flex-col h-screen pb-8 bg-white border-r dark:bg-gray-800 dark:border-gray-600 left-0 bg-white">
+      <div class="text-3xl font-bold text-left mt-6 mb-4 ml-6 text-blue-600">Cloud Solver</div>
+      <hr class="mb-0">
+      <div class="flex cursor-default ml-4 py-4">
+        <img class="object-cover w-10 h-10 mr-2 rounded-full" :src="'https://avatars.dicebear.com/api/identicon/' + user.email +'.svg'" alt="avatar">
         <div class="">
-          <h4 class="mx-2 mb-2 font-medium text-sm dark:text-gray-200 hover:underline mainHeading">{{user.displayName}}</h4>
-          <div class="mx-2 mt-1 text-xs font-medium text-remSideBarGray dark:text-gray-400 hover:underline">{{user.email}}</div>
+          <h4 class="mx-2 font-medium text-sm dark:text-gray-200 hover:underline mainHeading">{{user.displayName}}</h4>
+          <div class="mx-2 text-xs font-medium text-remSideBarGray dark:text-gray-400 hover:underline">{{user.email}}</div>
         </div>
       </div>
-      
-      <div class="flex flex-col justify-between flex-1 mt-1">
+      <hr>
+      <div style="min-height: 400px; height: 100%" >
+      <div style="height: 100%;" class="flex flex-col justify-between flex-1 mt-1 relative h-full">
         <nav class="">
           <!-- <router-link :to="{ name: 'MainDashboard' }" class="flex items-center px-4 py-2 mt-5 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700" href="#">
             <img class="inline mr-2" src="/svgs/dashboard.svg" />
@@ -29,30 +30,78 @@
           </router-link>
 
           -->
-
-          <router-link :to="{ name: 'MainUserControls' }" class="flex items-center px-4 py-2 mt-5 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700" href="#">
-            <img class="inline mr-2" src="/svgs/projekti.svg" />
-
+          <div class="py-4 px-4">
+          <h3 class=" text-xl mb-2 font-bold">Menu</h3>
+          <router-link :to="{ name: 'MainUserControls' }" class="flex items-center  py-2  text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700" href="#">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
             <span class="mx-4 font-medium text-black tracking-wide hover:text-remSideBarHoverBlue">Dashboard</span>
           </router-link>
-          <router-link v-if="user.userRole == 'admin'" :to="{ name: 'AdminPanel' }" class="flex items-center px-4 py-2 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700">
-            <img class="inline mr-2" src="/svgs/projekti.svg" />
 
-            <span class="mx-4 font-medium text-black tracking-wide hover:text-remSideBarHoverBlue">Admin panel</span>
+          <router-link :to="{ name: 'ManageDatasets' }" class="flex items-center  py-2  text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700" href="#">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+          </svg>
+            <span class="mx-4 font-medium text-black tracking-wide hover:text-remSideBarHoverBlue">Datasets</span>
           </router-link>
 
-          <!-- <a class="flex items-center px-4 py-2 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700" href="#">
+
+          <router-link :to="{ name: 'ManageDatasets' }" class="flex items-center  py-2  text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700" href="#">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+          </svg>
+            <span class="mx-4 font-medium text-black tracking-wide hover:text-remSideBarHoverBlue">Solutions</span>
+          </router-link>
+
+          <router-link :to="{ name: 'ManageDatasets' }" class="flex items-center  py-2  text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700" href="#">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+          </svg>
+            <span class="mx-4 font-medium text-black tracking-wide hover:text-remSideBarHoverBlue">Schedule</span>
+          </router-link>
+
+
+
+          <!-- <a class="flex items-center  py-2 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700" href="#">
             <img class="inline mr-2" src="/svgs/dokumenti.svg" />
 
             <span class="mx-4 font-medium text-black tracking-wide hover:text-remSideBarHoverBlue">Dokumenti</span>
-          </a> -->
+          </a> -->    
+        </div>
 
-          <a v-if="$store.getters.getJwt" v-on:click="logout()" class="flex items-center px-4 py-2  text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700" href="#">
-            <img class="inline mr-2" src="/svgs/logout.svg" />
+        <div class="" v-if="user.userRole == 'admin'">
+          <hr>
+          <div class="px-4 py-4">
+          <h3 class="text-xl mb-2 font-bold">Admin</h3>
+          <router-link  :to="{ name: 'UserManagement' }" class="flex items-center  py-2 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700">
+           
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
 
+              <span class="mx-4 font-medium text-black tracking-wide hover:text-remSideBarHoverBlue">Users</span>
+            </router-link>
+
+          <router-link  :to="{ name: 'SolverManagement' }" class="flex items-center  py-2 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+              <span class="mx-4 font-medium text-black tracking-wide hover:text-remSideBarHoverBlue">Solvers</span>
+            </router-link>
+        </div>
+        </div>
+
+        <div class="flex-grow" ></div>
+
+          <a v-if="$store.getters.getJwt" v-on:click="logout()" class="absolute bottom-0 w-full px-4 py-2  text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700 mt-auto mb-0" href="#/">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
             <span class="mx-4 font-medium text-black tracking-wide hover:text-remSideBarHoverBlue">Logout</span>
           </a>
         </nav>
+      </div>
       </div>
     </div>
   </div>
@@ -93,7 +142,7 @@ export default {
 @media (max-width: 600px) {
   .nav-item {
     font-size: 2em;
-    width: 50%;
+    width: 100%;
     text-align: center;
   }
 

@@ -21,7 +21,12 @@ export default {
         }
     },
 
-
+    watch: {
+        value(v) {
+            this.selected = v
+        }
+    },
+    
     mounted() {
         this.axios.get('http://34.140.9.12/api/users/users', {
             headers: {

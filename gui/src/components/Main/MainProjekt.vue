@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- Main Body -->
-        <div class="text-left w-full  mt-36 pl-40">
+        <div class="text-left w-full  mt-36">
             <div class="inner px-8 py-6 bg-white rounded">
                 <button class="hidden outline-none focus:outline-none" onclick="history.back()">
                     <img class="inline h-5" src="/svgs/left-arrow.svg" />
@@ -149,7 +149,7 @@
             </div>
         </div>
         <!-- Spodnji del pod projektom -->
-        <div class="text-left w-full pl-40 mt-10 mb-10">
+        <div class="text-left w-full mt-10 mb-10">
             <div class="inner p-8 bg-white rounded">
                 <div v-for="(comment, index) in projectData.comments" :key="index" class="flex mt-20 first:mt-4 mb-4" style="min-height: 100px">
 
