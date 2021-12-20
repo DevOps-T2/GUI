@@ -216,7 +216,10 @@ export default {
                 })).json();
         },
         async refreshFiles() {
-            let files = await (await fetch('http://34.140.9.12/api/minizinc/' + this.user.id)).json();
+            let files = await (await fetch('http://34.140.9.12/api/minizinc/' + this.user.id, {
+                headers: {
+                    Authorization: "Bearer " + this.jwt}
+                })).json();
             this.mznFiles = [];
             this.dznFiles = [];
             for(let file of files){
@@ -225,7 +228,10 @@ export default {
             }
         },
         async showFile(fileUUID){
-            let fileUrl = await(await fetch('http://34.140.9.12/api/minizinc/' + this.user.id + '/' + fileUUID)).text();
+            let fileUrl = await(await fetch('http://34.140.9.12/api/minizinc/' + this.user.id + '/' + fileUUID, {
+                headers: {
+                    Authorization: "Bearer " + this.jwt}
+                })).text();
             console.log(fileUrl);
             window.open(fileUrl.replace('"','').replace('"',''), '_blank');
         },
@@ -290,7 +296,12 @@ export default {
         },
         async deleteFile(fileUUID){
             console.log(fileUUID);
-            let response = await fetch('http://34.140.9.12/api/minizinc/' + this.user.id + '/' + fileUUID, {method: "DELETE"});
+            let response = await fetch('http://34.140.9.12/api/minizinc/' + this.user.id + '/' + fileUUID, {
+                method: "DELETE",
+                headers: {
+                        'Authorization': "Bearer " + this.jwt
+                    }
+                });
             console.log(response);
             this.refreshFiles();
         },
