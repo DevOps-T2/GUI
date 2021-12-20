@@ -153,7 +153,7 @@
 
             <div class="borderShadowProject rounded-sm tracking-wide bg-white pt-4 mt-8 pb-10">
                 <div class="text-center p-6 text-2xl font-bold">
-                    Computations
+                    Current Computations
                 </div>
                 <div v-for="computation in currentComputations" :key=computation.id class="flex justify-between border-2 border-gray-400 rounded-lg mx-20">
                     <div class="flex m-2">
@@ -170,6 +170,30 @@
                     <div>
                         <button @click="terminateComputation(computation.id)" class="bg-red-400 hover:bg-red-500 text-white py-2 px-4 rounded-full m-2">
                             Terminate
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="borderShadowProject rounded-sm tracking-wide bg-white pt-4 mt-8 pb-10">
+                <div class="text-center p-6 text-2xl font-bold">
+                    Finished Computations
+                </div>
+                <div v-for="computation in finishedComputations" :key=computation.id class="flex justify-between border-2 border-gray-400 rounded-lg mx-20">
+                    <div class="flex m-2">
+                        <div class="text-black mx-2 p-2">
+                            MZN ID: {{computation.mzn_file_id}}
+                        </div>
+                        <div class="text-black rounded-lg mx-2 p-2">
+                            DZN ID: {{computation.dzn_file_id}}
+                        </div>
+                        <div class="text-black rounded-lg mx-2 p-2">
+                            Status: Finished
+                        </div>
+                    </div>
+                    <div>
+                        <button @click="showComputation(computation.id)" class="bg-greeb-400 hover:bg-greeb-500 text-white py-2 px-4 rounded-full m-2">
+                            Show
                         </button>
                     </div>
                 </div>
@@ -205,6 +229,17 @@ export default {
             dznFiles: [],
             quota: null,
             currentComputations: [{
+                "id": 0,
+                "solver_ids": [
+                    "1"
+                ],
+                "mzn_file_id": "6ed4ef44-7a71-45aa-80ff-3f05dcb00b74",
+                "vcpus": "1",
+                "memory": "1",
+                "user_id": "61c030ad2318c1069de49267",
+                "dzn_file_id": "eab644de-cc32-4be0-9fd2-d5e3d54d327c"
+            }],
+            finishedComputations: [{
                 "id": 0,
                 "solver_ids": [
                     "1"
@@ -377,7 +412,7 @@ export default {
                 alert("Axios error: " + axiosErr);
             });
         },
-        getComputations(){
+        getCurrentComputations(){
             this.axios.get('http://34.140.9.12/api/scheduler/computations/' + this.user.id, {
                 headers: {
                     'Authorization': "Bearer " + this.jwt
@@ -386,7 +421,7 @@ export default {
             .then(axiosRes => {
                 let axiosJson = axiosRes.data;
                 console.log(axiosJson);
-                this.executions = axiosJson;
+                this.currentComputations = axiosJson;
             })
             .catch(axiosErr => {
                 console.log("Axios error: " + axiosErr);
@@ -402,12 +437,38 @@ export default {
             .then(axiosRes => {
                 let axiosJson = axiosRes.data;
                 console.log(axiosJson);
+                this.finishedComputations = axiosJson;
             })
             .catch(axiosErr => {
                 console.log("Axios error: " + axiosErr);
                 alert("Axios error: " + axiosErr);
             });
-        }
+        },
+        getFinishedComputations(){
+            this.axios.get('http://34.140.9.12/api/solutions/computations/' + this.user.id, {
+                headers: {
+                    'Authorization': "Bearer " + this.jwt
+                }
+            })
+            .then(axiosRes => {
+                let axiosJson = axiosRes.data;
+                console.log(axiosJson);
+                this.computations = axiosJson;
+            })
+            .catch(axiosErr => {
+                console.log("Axios error: " + axiosErr);
+                alert("Axios error: " + axiosErr);
+            });
+        },
+        async showComputation(computationId){
+            let fileUrl = await(await fetch('http://34.140.9.12/api/solutions/computations' + computationId, {
+                headers: {
+                    Authorization: "Bearer " + this.jwt
+                }
+            })).text();
+            console.log(fileUrl);
+            window.open(fileUrl.replace('"','').replace('"',''), '_blank');
+        },
     }
 }
 </script>
