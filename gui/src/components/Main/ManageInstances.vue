@@ -76,7 +76,14 @@ export default {
         return {
             mznFiles: [],
             dznFiles: [],
+            user: null,
+            jwt: null,
         };
+    },
+
+    created() {
+        this.user = this.$store.getters.getUser;
+        this.jwt = this.$store.getters.getJwt;
     },
 
     mounted() {

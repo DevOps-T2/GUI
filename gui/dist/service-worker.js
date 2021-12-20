@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.6ca0ac6cc5463c196f557794ea9f4e32.js"
+  "/precache-manifest.21738ed366b63ada7c40d6365033f717.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "mcrsrvvue"});

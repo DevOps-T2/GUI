@@ -15,8 +15,10 @@ import MainRegister from './components/MainRegister.vue';
 import MainDashboard from './components/MainDashboard.vue';
 import MainUserControls from './components/Main/MainUserControls.vue';
 import UserManagement from './components/Main/UserManagement.vue';
-import ManageDatasets from './components/Main/ManageDatasets.vue';
+import ManageInstances from './components/Main/ManageInstances.vue';
 import SolverManagement from './components/Main/SolverManagement.vue';
+import ManageScheduling from './components/Main/ManageScheduling.vue';
+import ManageSolutions from './components/Main/ManageSolutions.vue';
 
 // Povprasevanje
 
@@ -68,9 +70,19 @@ const router = new VueRouter({
             component: MainDashboard
         },
         {
-            path: '/datasets',
-            name: 'ManageDatasets',
-            component: ManageDatasets
+            path: '/instances',
+            name: 'ManageInstances',
+            component: ManageInstances
+        },
+        {
+            path: '/schedule',
+            name: 'ManageScheduling',
+            component: ManageScheduling
+        },
+        {
+            path: '/solutions',
+            name: 'ManageSolutions',
+            component: ManageSolutions
         },
         {
             path: '/profile/:uid?',

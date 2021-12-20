@@ -29,6 +29,7 @@
                 <div>
                     <h3 class="text-xl mb-4">Danger Zone</h3>
                     <delete-user @deleted="onUserDelete" v-model="user"></delete-user>
+    
                 </div>
             </div>
 
