@@ -110,8 +110,8 @@
                 </div>
                 <div class="px-20 pb-4">
                     <div class="flex mb-4 mt-2">
-                        <div class="pl-2">Timeout</div>
-                        <div class="pl-44">Memory limit</div>
+                        <div class="pl-2">Timeout (in seconds)</div>
+                        <div class="pl-44">Memory limit (in Megabytes)</div>
                         <div class="pl-36">vCPUs</div>
                     </div>
                     <div class="flex mb-4 mt-2">
