@@ -192,7 +192,7 @@
                         </div>
                     </div>
                     <div>
-                        <button @click="showComputation(computation.id)" class="bg-greeb-400 hover:bg-greeb-500 text-white py-2 px-4 rounded-full m-2">
+                        <button @click="showComputation(computation.id)" class="bg-green-400 hover:bg-green-500 text-white py-2 px-4 rounded-full m-2">
                             Show
                         </button>
                     </div>
@@ -298,8 +298,9 @@ export default {
         async showFile(fileUUID){
             let fileUrl = await(await fetch('http://34.140.9.12/api/minizinc/' + this.user.id + '/' + fileUUID, {
                 headers: {
-                    Authorization: "Bearer " + this.jwt}
-                })).text();
+                    Authorization: "Bearer " + this.jwt
+                }
+            })).text();
             console.log(fileUrl);
             window.open(fileUrl.replace('"','').replace('"',''), '_blank');
         },
