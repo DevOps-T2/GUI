@@ -55,34 +55,7 @@ export default {
                 return;
             }
 
-
-            if(process.env.NODE_ENV == "development"){
-                console.log("dev mode")
-                this.axios.post('http://'+'34.140.9.12'+'/api/users/login', loginParameters)
-                .then(async axiosRes => {
-                    if (axiosRes.data.message == 'Login successful') {
-                        //document.cookie = "jwt=" + loginResponse.jwt + ";path=/";
-                        console.log("Login success");
-
-                        this.$store.commit('setJwt', axiosRes.data.data.jwt);
-                        this.$store.commit('setUser', axiosRes.data.data.user);
-                        this.$store.commit('setPovprasevanja', []);
-                        this.$router.push({
-                            name: 'MainUserControls'
-                        });
-                    }
-                    else{
-                        this.addErrorBorder();
-                    }
-                })
-                .catch(axiosErr => {
-                    console.log("Axios error: " + axiosErr);
-                    alert("Axios error: " + axiosErr);
-                });
-                return;
-            }
-
-            this.axios.post('http://'+'34.140.9.12'+'/api/users/login', loginParameters)
+            this.axios.post('http://'+'34.140.9.12'+'/login', loginParameters)
             .then(async axiosRes => {
                 if (axiosRes.data.message == 'Login successful') {
                     //document.cookie = "jwt=" + loginResponse.jwt + ";path=/";
