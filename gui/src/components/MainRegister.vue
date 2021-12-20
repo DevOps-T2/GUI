@@ -64,26 +64,7 @@ import { fetchMixins } from '@/mixins/fetchMixins'
                     return;
                 }
 
-                if(process.env.NODE_ENV == "development"){
-                    this.axios.post('http://'+'34.140.9.12'+'/api/users/register', registerParameters)
-                    .then(axiosRes => {
-                        if (axiosRes.data.message == 'Registration successful') {
-                            console.log("Register success");
-                            this.$router.push({
-                                name: 'MainLogin'
-                            });
-                        }
-                        else{
-                            this.addErrorBorder();
-                        }
-                    })
-                    .catch(axiosErr => {
-                        console.log("Axios error: " + axiosErr);
-                        alert("Axios error: " + axiosErr);
-                    });
-                }
-
-                this.axios.post('http://'+'34.140.9.12'+'/api/users/register', registerParameters)
+                this.axios.post('http://'+'34.140.9.12'+'/register', registerParameters)
                 .then(axiosRes => {
                     if (axiosRes.data.message == 'Registration successful') {
                         console.log("Register success");
