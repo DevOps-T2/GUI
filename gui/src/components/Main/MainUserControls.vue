@@ -25,6 +25,15 @@
                 </div>
             </div>
 
+            <div class="borderShadowProject rounded-sm tracking-wide bg-white pt-4 mb-8">
+                <div class="text-center p-6 text-xl">
+                    Resource Limits
+                </div>
+                <div class="flex px-20 py-4 justify-between border-t">
+                    <user-resource-limit :quota="quota"></user-resource-limit> 
+                </div>
+            </div>
+
             <div class="borderShadowProject rounded-sm tracking-wide bg-white pt-4">
                 <div class="text-center p-6 text-xl">
                     MZN instances
@@ -180,9 +189,13 @@
 import moment from 'moment'
 moment.locale('sl');
 
+import UserResourceLimit from '@/components/Quotas/UserResourceLimit.vue'
+
 export default {
     
-    /* components: { ProjektData}, */
+    components: {
+        UserResourceLimit
+    },
 
     data() {
         return {
@@ -190,7 +203,8 @@ export default {
             fetchingPovprasevanja: false,
             solvers: [],
             mznFiles: [],
-            dznFiles: []
+            dznFiles: [],
+            quota: null
         };
     },
 
@@ -202,6 +216,7 @@ export default {
     },
 
     mounted(){
+        this.fetchQuotas();
         this.refreshSolvers();
         this.refreshFiles();
     },
@@ -209,6 +224,14 @@ export default {
     methods: {
         async setTempData() {
         },
+
+        async fetchQuotas() {
+            this.quota = await (await fetch('http://34.140.9.12/api/quotas/quota/' + this.user.id, {
+                headers: {
+                    Authorization: "Bearer " + this.jwt}
+                })).json();
+        },
+
         async refreshSolvers() {
             this.solvers = await (await fetch('http://34.140.9.12/api/solvers/Solvers', {
                 headers: {
