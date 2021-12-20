@@ -120,8 +120,8 @@
                 <div class="px-20 pb-4">
                     <div class="flex mb-4 mt-2">
                         <div class="pl-2">Timeout (in seconds)</div>
-                        <div class="pl-44">Memory limit (in Megabytes)</div>
-                        <div class="pl-36">vCPUs</div>
+                        <div class="pl-20">Memory limit (in Megabytes)</div>
+                        <div class="pl-4">vCPUs</div>
                     </div>
                     <div class="flex mb-4 mt-2">
                         <input id="timeoutInput" value="60" type="number" placeholder="Timeout in seconds" class="border-2 text-black border-gray-900 rounded-lg mx-2 p-2">
