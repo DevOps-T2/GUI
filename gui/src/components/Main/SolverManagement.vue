@@ -6,10 +6,10 @@
 <h1 class="text-3xl mb-6 font-bold">Solvers</h1>
 <div class="mb-8">
 
-<div v-if="solvers.length == 0">
+<div v-if="solvers.length == 0 && !busy">
     There are currently no solvers.
 </div>
-<div v-else class="flex flex-col">
+<div v-if="solvers.length != 0" class="flex flex-col">
   <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
       <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
