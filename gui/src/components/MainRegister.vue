@@ -4,6 +4,9 @@
         <form class="form-group w-1/3 m-auto flex-col" id="loginForm" action="#" onsubmit="return false">
         <h2 class="form-signin-heading text-3xl font-bold mb-2 mainHeading">Register a user</h2>
             <div class="mt-4 border border-gray-200 rounded-md emailWrapper">
+                <input v-model="ip" type="text" name="ip" placeholder="127.0.0.1" class="p-5 placeholder-gray-500 text-gray-500 relative bg-white rounded border-0 outline-none focus:outline-none focus:shadow-sm w-full" required autofocus>
+            </div>
+            <div class="mt-4 border border-gray-200 rounded-md emailWrapper">
                 <input type="email" id="inputEmail" name="email" placeholder="E-mail" class="p-5 placeholder-gray-500 text-gray-500 relative bg-white rounded border-0 outline-none focus:outline-none focus:shadow-sm w-full" required autofocus>
             </div>
             <div class="mt-4 border border-gray-200 rounded-md passwordWrapper">
@@ -36,6 +39,7 @@ import { fetchMixins } from '@/mixins/fetchMixins'
     export default {
         data() {
             return {
+                ip: window.localStorage.getItem('ip')
             }
         },
 
@@ -47,6 +51,8 @@ import { fetchMixins } from '@/mixins/fetchMixins'
 
         methods: {
             async register() {
+                window.localStorage.setItem("ip", this.ip);
+
                 let inputEmail  = document.querySelector('#inputEmail').value;
                 let inputPassword  = document.querySelector('#inputPassword').value;
                 let inputName  = document.querySelector('#inputName').value;
@@ -64,7 +70,7 @@ import { fetchMixins } from '@/mixins/fetchMixins'
                     return;
                 }
 
-                this.axios.post('http://'+'34.140.9.12'+'/register', registerParameters)
+                this.axios.post('http://'+window.localStorage.getItem('ip')+'/register', registerParameters)
                 .then(axiosRes => {
                     if (axiosRes.data.message == 'Registration successful') {
                         console.log("Register success");

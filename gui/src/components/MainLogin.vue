@@ -5,8 +5,14 @@
         <!-- <div class="text-center mb-16">
             <img class="mx-auto" src="/images/logo_rem_login.png" alt="REM d.o.o.">
         </div> -->
+
+
         <h2 class="form-signin-heading text-3xl font-bold mb-2 mainHeading">Login into the portal</h2>
         <!-- <div class="form-signin-heading text-sxl mb-10">Portal za oddajo povpraševanj, spremljanje<br>projektov in komunikacija s podjetjem Senči d.o.o.</div> -->
+            <div class="mt-4 border border-gray-200 rounded-md emailWrapper">
+                <input v-model="ip" type="text" name="ip" placeholder="127.0.0.1" class="p-5 placeholder-gray-500 text-gray-500 relative bg-white rounded border-0 outline-none focus:outline-none focus:shadow-sm w-full" required autofocus>
+            </div>
+            
             <div class="mt-4 border border-gray-200 rounded-md emailWrapper">
                 <input type="email" id="inputEmail" name="email" placeholder="E-mail" class="p-5 placeholder-gray-500 text-gray-500 relative bg-white rounded border-0 outline-none focus:outline-none focus:shadow-sm w-full" required autofocus>
             </div>
@@ -21,6 +27,7 @@
             </router-link>
         </form>
 
+
     </div>
 </div>
 </template>
@@ -31,7 +38,9 @@ import {fetchMixins} from '@/mixins/fetchMixins'
 
 export default {
     data() {
-        return {}
+        return {
+            ip: window.localStorage.getItem('ip')
+        }
     },
 
     mixins: [toolsMixins, fetchMixins],
@@ -42,6 +51,10 @@ export default {
 
     methods: {
         async login() {
+
+       
+            window.localStorage.setItem("ip", this.ip);
+
             let inputEmail = document.querySelector('#inputEmail').value;
             let inputPassword = document.querySelector('#inputPassword').value;
 
@@ -55,7 +68,7 @@ export default {
                 return;
             }
 
-            this.axios.post('http://'+'34.140.9.12'+'/login', loginParameters)
+            this.axios.post('http://'+window.localStorage.getItem('ip')+'/login', loginParameters)
             .then(async axiosRes => {
                 if (axiosRes.data.message == 'Login successful') {
                     //document.cookie = "jwt=" + loginResponse.jwt + ";path=/";

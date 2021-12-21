@@ -113,7 +113,7 @@ export default {
 
         createSolver() {
             this.busy = true;
-            this.axios.post('http://34.140.9.12/api/solvers/Solvers', this.form , {
+            this.axios.post('http://'+window.localStorage.getItem('ip')+'/api/solvers/Solvers', this.form , {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': "Bearer " + this.$store.getters.getJwt
@@ -128,7 +128,7 @@ export default {
 
         fetchSolvers() {
             this.busy = true;
-            this.axios.get('http://34.140.9.12/api/solvers/Solvers', {
+            this.axios.get('http://'+window.localStorage.getItem('ip')+'/api/solvers/Solvers', {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': "Bearer " + this.$store.getters.getJwt
@@ -142,7 +142,7 @@ export default {
 
         deleteSolver(id) {
             this.busy = true;
-            this.axios.delete('http://34.140.9.12/api/solvers/Solvers/' + id, {
+            this.axios.delete('http://'+window.localStorage.getItem('ip')+'/api/solvers/Solvers/' + id, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': "Bearer " + this.$store.getters.getJwt

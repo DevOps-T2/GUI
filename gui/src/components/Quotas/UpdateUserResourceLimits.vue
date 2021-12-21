@@ -66,7 +66,7 @@ export default {
 
     methods: {
         fetchQuota() {
-            this.axios.get("http://34.140.9.12/api/quotas/quota/" + this.user._id, {
+            this.axios.get('http://'+window.localStorage.getItem('ip')+'/api/quotas/quota/' + this.user._id, {
             headers: {
                 'Content-Type': 'application/json',
                  'Authorization': "Bearer " + this.$store.getters.getJwt
@@ -82,7 +82,7 @@ export default {
         updateMemory() {
             this.busy = true
             this.message = null;
-            this.axios.put("http://34.140.9.12/api/quotas/quota/memory/" + this.user._id, {
+            this.axios.put('http://'+window.localStorage.getItem('ip')+'/api/quotas/quota/memory/' + this.user._id, {
                   "memoryLimit": this.quota.memory
             } ,{
             headers: {
@@ -99,7 +99,7 @@ export default {
         updateCpu() {
             this.busy = true
             this.message = null;
-            this.axios.put("http://34.140.9.12/api/quotas/quota/Vcpu/" + this.user._id, {
+            this.axios.put('http://'+window.localStorage.getItem('ip')+'/api/quotas/quota/Vcpu/' + this.user._id, {
                   "vcpuLimit": this.quota.vCpu
             } ,{
             headers: {

@@ -63,7 +63,7 @@ export default {
 
     methods: {
         async refreshFiles() {
-            this.axios.get('http://34.140.9.12/api/minizinc/' + this.user.id)
+            this.axios.get('http://'+window.localStorage.getItem('ip')+'/api/minizinc/' + this.user.id)
             .then( response => {
                 this.solutions = response.data.filter( file => file.fileName.includes(".txt"));
                 console.log(this.solutions)
@@ -71,7 +71,7 @@ export default {
             });
         },
         async showComputation(computationId){
-            let fileUrl = await(await fetch('http://34.140.9.12/api/solutions/computations' + computationId, {
+            let fileUrl = await(await fetch('http://'+window.localStorage.getItem('ip')+'/api/solutions/computations' + computationId, {
                 headers: {
                     Authorization: "Bearer " + this.jwt
                 }

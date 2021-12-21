@@ -13,7 +13,7 @@ import MainLogin from './components/MainLogin.vue';
 import MainProfile from './components/MainProfile.vue';
 import MainRegister from './components/MainRegister.vue';
 import MainDashboard from './components/MainDashboard.vue';
-import Dashboard from './components/Main/Dashboard.vue';
+import DashboardView from './components/Main/DashboardView.vue';
 import UserManagement from './components/Main/UserManagement.vue';
 import ManageInstances from './components/Main/ManageInstances.vue';
 import SolverManagement from './components/Main/SolverManagement.vue';
@@ -89,8 +89,8 @@ const router = new VueRouter({
         },
         {
             path: '/',
-            name: 'Dashboard',
-            component: Dashboard
+            name: 'DashboardView',
+            component: DashboardView
         },
         {
             path: '/admin/users',

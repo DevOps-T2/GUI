@@ -31,7 +31,7 @@ export default {
 
             this.message = null;
             this.busy = true;
-            this.axios.delete('http://34.140.9.12/api/users/users/' + this.value._id, {
+            this.axios.delete('http://'+window.localStorage.getItem('ip')+'/api/users/users/' + this.value._id, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': "Bearer " + this.$store.getters.getJwt

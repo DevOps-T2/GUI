@@ -96,7 +96,7 @@ export default {
 
     methods: {
         async refreshFiles() {
-            let files = await (await fetch('http://34.140.9.12/api/minizinc/' + this.user.id, {
+            let files = await (await fetch('http://'+window.localStorage.getItem('ip')+'/api/minizinc/' + this.user.id, {
                 headers: {
                     Authorization: "Bearer " + this.jwt}
                 })).json();
@@ -108,7 +108,7 @@ export default {
             }
         },
         async showFile(fileUUID){
-            let fileUrl = await(await fetch('http://34.140.9.12/api/minizinc/' + this.user.id + '/' + fileUUID, {
+            let fileUrl = await(await fetch('http://'+window.localStorage.getItem('ip')+'/api/minizinc/' + this.user.id + '/' + fileUUID, {
                 headers: {
                     Authorization: "Bearer " + this.jwt
                 }
@@ -119,13 +119,13 @@ export default {
         async uploadFile(type, id, fileUUID){
             let googleFileData;
             if(fileUUID){
-                googleFileData = await (await fetch(`http://34.140.9.12/api/minizinc/upload?userID=${this.user.id}&fileUUID=${fileUUID}`, {
+                googleFileData = await (await fetch(`http://'+window.localStorage.getItem('ip')+'/api/minizinc/upload?userID=${this.user.id}&fileUUID=${fileUUID}`, {
                 headers: {
                     Authorization: "Bearer " + this.jwt}
                 })).json();
             }
             else{
-                googleFileData = await (await fetch('http://34.140.9.12/api/minizinc/upload', {
+                googleFileData = await (await fetch('http://'+window.localStorage.getItem('ip')+'/api/minizinc/upload', {
                 headers: {
                     Authorization: "Bearer " + this.jwt}
                 })).json();
@@ -150,7 +150,7 @@ export default {
                 console.log("google storage response: ");
                 console.log(axiosRes);
 
-                this.axios.post('http://34.140.9.12/api/minizinc/upload', {userID: this.user.id, fileName: filename, fileUUID: googleFileData.fileUUID}, {
+                this.axios.post('http://'+window.localStorage.getItem('ip')+'/api/minizinc/upload', {userID: this.user.id, fileName: filename, fileUUID: googleFileData.fileUUID}, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': "Bearer " + this.jwt
@@ -175,7 +175,7 @@ export default {
         },
         async deleteFile(fileUUID){
             console.log(fileUUID);
-            let response = await fetch('http://34.140.9.12/api/minizinc/' + this.user.id + '/' + fileUUID, {
+            let response = await fetch('http://'+window.localStorage.getItem('ip')+'/api/minizinc/' + this.user.id + '/' + fileUUID, {
                 method: "DELETE",
                 headers: {
                         'Authorization': "Bearer " + this.jwt

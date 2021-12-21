@@ -28,7 +28,7 @@ export default {
     },
     
     mounted() {
-        this.axios.get('http://34.140.9.12/api/users/users', {
+        this.axios.get('http://'+window.localStorage.getItem('ip')+'/api/users/users', {
             headers: {
                 'Content-Type': 'application/json',
                  'Authorization': "Bearer " + this.$store.getters.getJwt

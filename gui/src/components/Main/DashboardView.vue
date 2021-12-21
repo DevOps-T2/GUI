@@ -125,7 +125,7 @@ export default {
 
     methods: {
         async fetchQuotas() {
-            this.axios.get('http://34.140.9.12/api/quotas/quota/' + this.user.id)
+            this.axios.get('http://'+window.localStorage.getItem('ip')+'/api/quotas/quota/' + this.user.id)
             .then( response => {
                 this.quota = response.data
                 console.log(this.quota)
@@ -133,14 +133,14 @@ export default {
         },
 
         getCurrentComputations(){
-            this.axios.get('http://34.140.9.12/api/monitor/processes/' + this.user.id, )
+            this.axios.get('http://'+window.localStorage.getItem('ip')+'/api/monitor/processes/' + this.user.id, )
             .then(response => {
                 this.computations = response.data;
             });
         },
 
         terminateComputation(computationId){
-            this.axios.delete('http://34.140.9.12/api/scheduler/computation/' + computationId, {
+            this.axios.delete('http://'+window.localStorage.getItem('ip')+'/api/scheduler/computation/' + computationId, {
                 headers: {
                     'Authorization': "Bearer " + this.jwt
                 }

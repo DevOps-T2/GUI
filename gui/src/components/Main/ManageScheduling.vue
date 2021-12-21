@@ -162,7 +162,7 @@ export default {
 
     methods: {
         async fetchJobs() {
-            this.axios.get('http://34.140.9.12/api/scheduler/computations/' + this.user.id)
+            this.axios.get('http://'+window.localStorage.getItem('ip')+'/api/scheduler/computations/' + this.user.id)
             .then( response => {
                 this.queue = response.data;
             }).finally( () => this.busy = false)
@@ -171,7 +171,7 @@ export default {
         removeJobFromQueue(job) {
             this.message = null;
             this.busy = true;
-            this.axios.delete('http://34.140.9.12/api/scheduler/computation/' + job.id)
+            this.axios.delete('http://'+window.localStorage.getItem('ip')+'/api/scheduler/computation/' + job.id)
             .then( () => {
                 this.message = "Job was dequeued."
             }).finally( () => this.fetchJobs())
@@ -179,13 +179,13 @@ export default {
 
 
         async refreshSolvers() {
-            this.solvers = await (await fetch('http://34.140.9.12/api/solvers/Solvers', {
+            this.solvers = await (await fetch('http://'+window.localStorage.getItem('ip')+'/api/solvers/Solvers', {
                 headers: {
                     Authorization: "Bearer " + this.jwt}
                 })).json();
         },
         async refreshFiles() {
-            let files = await (await fetch('http://34.140.9.12/api/minizinc/' + this.user.id, {
+            let files = await (await fetch('http://'+window.localStorage.getItem('ip')+'/api/minizinc/' + this.user.id, {
                 headers: {
                     Authorization: "Bearer " + this.jwt}
                 })).json();
@@ -223,7 +223,7 @@ export default {
             console.log(reqBody);
 
 
-            this.axios.post('http://34.140.9.12/api/scheduler/computation', reqBody, {
+            this.axios.post('http://'+window.localStorage.getItem('ip')+'/api/scheduler/computation', reqBody, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': "Bearer " + this.jwt
