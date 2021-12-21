@@ -141,9 +141,9 @@ export default {
             formData.append(filename, file.files[0]);
             file.value = "";
 
-            this.axios.put(googleFileData.url, formData, {
+            this.axios.put(googleFileData.url, file.files[0], {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/octet-stream'
                 }
             })
             .then(axiosRes => {
