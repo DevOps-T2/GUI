@@ -138,7 +138,7 @@ export default {
             if(type === "mzn" && !file.files[0].name.includes(".mzn")){ alert("Not a mzn file"); return; }
             else if(type === "dzn" && !file.files[0].name.includes(".dzn")){ alert("Not a dzn file"); return; }
 
-            formData.append(filename, file.files[0]);
+            formData.append('file', file.files[0]);
             file.value = "";
 
             this.axios.put(googleFileData.url, formData, {
