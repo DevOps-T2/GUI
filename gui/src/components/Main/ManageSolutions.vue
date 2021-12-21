@@ -62,12 +62,12 @@ export default {
     },
 
     methods: {
-
         async refreshFiles() {
             this.axios.get('http://34.140.9.12/api/minizinc/' + this.user.id)
             .then( response => {
                 this.solutions = response.data.filter( file => file.fileName.includes(".txt"));
                 console.log(this.solutions)
+
             });
         },
         async showComputation(computationId){
