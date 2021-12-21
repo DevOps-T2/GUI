@@ -13,7 +13,7 @@ import MainLogin from './components/MainLogin.vue';
 import MainProfile from './components/MainProfile.vue';
 import MainRegister from './components/MainRegister.vue';
 import MainDashboard from './components/MainDashboard.vue';
-import MainUserControls from './components/Main/MainUserControls.vue';
+import Dashboard from './components/Main/Dashboard.vue';
 import UserManagement from './components/Main/UserManagement.vue';
 import ManageInstances from './components/Main/ManageInstances.vue';
 import SolverManagement from './components/Main/SolverManagement.vue';
@@ -43,17 +43,15 @@ Vue.component('projektData', require('./components/Main/Projekti/ProjektData.vue
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
-Vue.use(VueAxios, axios)
+
+window.axios = axios;
+
+Vue.use(VueAxios, window.axios)
 Vue.use(require('vue-moment'));
 
 const router = new VueRouter({
     mode: 'history',
     routes: [
-        {
-            path: '/',
-            name: '/',
-            redirect: '/userControls'
-        },
         {
             path: '/register',
             name: 'MainRegister',
@@ -90,9 +88,9 @@ const router = new VueRouter({
             component: MainProfile
         },
         {
-            path: '/userControls',
-            name: 'MainUserControls',
-            component: MainUserControls
+            path: '/',
+            name: 'Dashboard',
+            component: Dashboard
         },
         {
             path: '/admin/users',
@@ -164,6 +162,7 @@ new Vue({
     components: {
         App
     },
+
     router,
     store,
     render: h => h(App),

@@ -2,9 +2,14 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 
 <div>
-<h1 class="text-3xl mb-6 font-bold">Solvers</h1>
 
-<div class="flex flex-col mb-8">
+<h1 class="text-3xl mb-6 font-bold">Solvers</h1>
+<div class="mb-8">
+
+<div v-if="solvers.length == 0">
+    There are currently no solvers.
+</div>
+<div v-else class="flex flex-col">
   <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
       <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -44,15 +49,13 @@
                 </button>
               </td>
             </tr>
-
-            <!-- More people... -->
           </tbody>
         </table>
       </div>
     </div>
   </div>
 </div>
-
+</div>
 
 
 <h2 class="text-3xl mb-6 font-bold">Create New</h2>

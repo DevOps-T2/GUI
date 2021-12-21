@@ -61,6 +61,11 @@ export default {
                     //document.cookie = "jwt=" + loginResponse.jwt + ";path=/";
                     console.log("Login success");
 
+                    window.axios.defaults.headers.common = {
+                        'Content-Type': 'application/json',
+                        Authorization: "Bearer " + this.$store.getters.getJw
+                    };
+
                     this.$store.commit('setJwt', axiosRes.data.data.jwt);
                     this.$store.commit('setUser', axiosRes.data.data.user);
                     this.$store.commit('setPovprasevanja', []);
