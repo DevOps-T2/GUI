@@ -14,10 +14,10 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.21738ed366b63ada7c40d6365033f717.js"
+  "/precache-manifest.fa879d0c6849d30a12b77b9df650e734.js"
 );
 
-workbox.core.setCacheNameDetails({prefix: "mcrsrvvue"});
+workbox.core.setCacheNameDetails({prefix: "CloudSolver"});
 
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {

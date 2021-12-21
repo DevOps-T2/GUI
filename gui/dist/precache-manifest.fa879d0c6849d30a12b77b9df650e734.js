@@ -1,7 +1,7 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "aeabda74926070bfa676",
-    "url": "/css/app.9f1c3104.css"
+    "revision": "69c8f6de1af825560ff4",
+    "url": "/css/app.6543486e.css"
   },
   {
     "revision": "8b6af8e5e8324edfd77af8b3b35d7f9c",
@@ -12,19 +12,19 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/images/logo_rem_login.png"
   },
   {
-    "revision": "f5e815a8084b3c577b13f824f953bc68",
+    "revision": "22cd618b4c266fdd5ae188daff48c3ac",
     "url": "/index.html"
   },
   {
-    "revision": "aeabda74926070bfa676",
-    "url": "/js/app.9333e10e.js"
+    "revision": "69c8f6de1af825560ff4",
+    "url": "/js/app.bd7d8d7e.js"
   },
   {
     "revision": "6a19deb9cf2b9fa81053",
     "url": "/js/chunk-vendors.b6eb7d5b.js"
   },
   {
-    "revision": "f8f24f5970355975dd6f53cca9c7aafb",
+    "revision": "14ab468771aec29fe535e447d2d891cc",
     "url": "/manifest.json"
   },
   {
