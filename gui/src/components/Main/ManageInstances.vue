@@ -139,11 +139,11 @@ export default {
             else if(type === "dzn" && !file.files[0].name.includes(".dzn")){ alert("Not a dzn file"); return; }
 
             formData.append('file', file.files[0]);
-            file.value = "";
+            //file.value = "";
 
-            this.axios.put(googleFileData.url, formData, {
+            this.axios.put(googleFileData.url, file.files[0], {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'text/plain'
                 }
             })
             .then(axiosRes => {
