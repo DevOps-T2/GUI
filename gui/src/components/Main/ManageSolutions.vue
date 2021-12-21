@@ -5,22 +5,14 @@
         You currently have no solutions.
     </div>
     <div v-else>
-         <div v-for="computation in finishedComputations" :key=computation.id class="mt-2 flex justify-between border-2 border-gray-400 rounded-lg mx-20">
+         <div v-for="solution in solutions" :key=solution.fileUUID class="mt-2 flex justify-between border-2 border-gray-400 rounded-lg mx-20">
             <div class="flex m-2">
-                <div class="text-black mx-2 p-2">
-                    MZN ID: {{computation.mzn_file_id}}
-                </div>
-                <div class="text-black rounded-lg mx-2 p-2">
-                    DZN ID: {{computation.dzn_file_id}}
-                </div>
+                <button @click="showFile(solution.fileUUID)" class="text-black rounded-lg mx-2 p-2">
+                    File Name: {{solution.fileName}}
+                </button>
                 <div class="text-black rounded-lg mx-2 p-2">
                     Status: Finished
                 </div>
-            </div>
-            <div>
-                <button @click="showComputation(computation.id)" class="bg-green-400 hover:bg-green-500 text-white py-2 px-4 rounded-full m-2">
-                    Show
-                </button>
             </div>
         </div>
     </div>
@@ -79,6 +71,14 @@ export default {
             console.log(fileUrl);
             window.open(fileUrl.replace('"','').replace('"',''), '_blank');
         },
+        async showFile(fileUUID) {
+            let fileUrl = await(await fetch('http://'+window.localStorage.getItem('ip')+'/api/minizinc/' + this.user.id + '/' + fileUUID, {
+                headers: {
+                    Authorization: "Bearer " + this.jwt
+                }
+            })).text();
+            window.open(fileUrl.replace('"','').replace('"',''), '_blank');
+        }
     }
 }
 </script>
