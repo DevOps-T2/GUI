@@ -81,9 +81,8 @@ export default {
 
                     this.$store.commit('setJwt', axiosRes.data.data.jwt);
                     this.$store.commit('setUser', axiosRes.data.data.user);
-                    this.$store.commit('setPovprasevanja', []);
                     this.$router.push({
-                        name: 'MainUserControls'
+                        name: 'DashboardView'
                     });
                 }
                 else{

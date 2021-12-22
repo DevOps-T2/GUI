@@ -5,14 +5,17 @@
         You currently have no solutions.
     </div>
     <div v-else>
-         <div v-for="solution in solutions" :key=solution.fileUUID class="mt-2 flex justify-between border-2 border-gray-400 rounded-lg mx-20">
-            <div class="flex m-2">
-                <button @click="showFile(solution.fileUUID)" class="text-black rounded-lg mx-2 p-2">
+         <div v-for="solution in solutions" :key=solution.fileUUID class="mt-2 border-2 border-gray-400 rounded-lg mr-20">
+            <div class="flex m-2 justify-between">
+                <div @click="showFile(solution.fileUUID)" class="text-black rounded-lg mx-2 p-2">
                     File Name: {{solution.fileName}}
-                </button>
+                </div>
                 <div class="text-black rounded-lg mx-2 p-2">
                     Status: Finished
                 </div>
+                <button @click="showFile(solution.fileUUID)" class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
+                    Download
+                </button>
             </div>
         </div>
     </div>
