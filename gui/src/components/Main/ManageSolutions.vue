@@ -7,7 +7,7 @@
     <div v-else>
          <div v-for="solution in solutions" :key=solution.fileUUID class="mt-2 border-2 border-gray-400 rounded-lg mr-20">
             <div class="flex m-2 justify-between">
-                <div @click="showFile(solution.fileUUID)" class="text-black rounded-lg mx-2 p-2">
+                <div class="text-black rounded-lg mx-2 p-2">
                     File Name: {{solution.fileName}}
                 </div>
                 <div class="text-black rounded-lg mx-2 p-2">
