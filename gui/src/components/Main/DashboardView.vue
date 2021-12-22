@@ -150,6 +150,7 @@ export default {
                 let axiosJson = response.data;
                 console.log("Computation stopped");
                 console.log(axiosJson);
+                this.getCurrentComputations()
             })
             .catch(axiosErr => {
                 console.log("Axios error: " + axiosErr);
