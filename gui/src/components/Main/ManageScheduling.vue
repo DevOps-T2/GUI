@@ -10,11 +10,17 @@
                 <div class="text-center p-6 text-2xl font-bold">
                     Schedule execution
                 </div>
-                <div class="flex px-20 py-4 justify-between border-t">
-                    <select id="mznSelect" style="text-transform: capitalize" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
-                        <option v-for="(mznFile, index) of mznFiles" :key="mznFile.fileUUID" :value="mznFile.fileUUID" style="text-transform: capitalize">ID: {{index}} {{mznFile.fileName}}</option>
-                    </select>
-
+                <div class="px-20 border-t pt-4">
+                    Mzn instances:
+                    <div v-for="(mznInstance, index) of mznFiles" :key="mznInstance.fileUUID" class="flex items-center mb-4 mt-2">
+                        <input :id="'mznInstance-option-' + index" type="checkbox" name="solver" :value="mznInstance.fileUUID" class="mznInstance h-4 w-4 border-gray-300 focus:ring-2 focus:ring-blue-300" aria-labelledby="mznInstance-option" aria-describedby="mznInstance-option">
+                        <label :for="'mznInstance-option-' + index" class="mznInstance text-sm font-medium text-gray-900 ml-2 block" style="text-transform: capitalize">
+                            {{mznInstance.fileName}}
+                        </label>
+                    </div>
+                </div>
+                <div class="px-20 py-4">
+                    Dzn instances:
                     <select id="dznSelect" style="text-transform: capitalize" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
                         <option value="">None</option>
                         <option v-for="(dznFile, index) of dznFiles" :value="dznFile.fileUUID" :key="dznFile.fileUUID" style="text-transform: capitalize">ID: {{index}} {{dznFile.fileName}}</option>
@@ -197,7 +203,7 @@ export default {
             }
         },
         async scheduleExecution(){
-            let mzn_id = document.querySelector("#mznSelect").value;
+            let mzn_ids = Array.from(document.querySelectorAll(".mznInstance")).filter(el => el.checked).map(el => el.value);
             let dzn_id = document.querySelector("#dznSelect").value || null;
             let timeout = document.querySelector("#timeoutInput").value;
             let memory = document.querySelector("#memoryInput").value;
@@ -208,35 +214,40 @@ export default {
 
             if (solvers.length == 0) { alert("No solvers selected"); return;}
 
-            let reqBody = {
-                solver_ids: solvers, 
-                mzn_file_id: mzn_id,
-                vcpus: vcpus,
-                memory: memory,
-                timeout_seconds: timeout,
-                solver_options: solverConf,
-                user_id: this.user.id
-            }
+            console.log(mzn_ids)
 
-            if (dzn_id) reqBody["dzn_file_id"] = dzn_id;
+            for(let mzn_id of mzn_ids){
 
-            console.log(reqBody);
-
-
-            this.axios.post('http://'+window.localStorage.getItem('ip')+'/api/scheduler/computation', reqBody, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': "Bearer " + this.jwt
+                let reqBody = {
+                    solver_ids: solvers, 
+                    mzn_file_id: mzn_id,
+                    vcpus: vcpus,
+                    memory: memory,
+                    timeout_seconds: timeout,
+                    solver_options: solverConf,
+                    user_id: this.user.id
                 }
-            })
-            .then(axiosRes => {
-                let axiosJson = axiosRes.data;
-                console.log(axiosJson);
-            })
-            .catch(axiosErr => {
-                console.log("Axios error: " + axiosErr);
-                alert("Axios error: " + axiosErr);
-            }).finally( () => this.fetchJobs());
+
+                if (dzn_id) reqBody["dzn_file_id"] = dzn_id;
+
+                console.log(reqBody);
+
+
+                this.axios.post('http://'+window.localStorage.getItem('ip')+'/api/scheduler/computation', reqBody, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': "Bearer " + this.jwt
+                    }
+                })
+                .then(axiosRes => {
+                    let axiosJson = axiosRes.data;
+                    console.log(axiosJson);
+                })
+                .catch(axiosErr => {
+                    console.log("Axios error: " + axiosErr);
+                    alert("Axios error: " + axiosErr);
+                }).finally( () => this.fetchJobs());
+            }
         },
     }
 }
