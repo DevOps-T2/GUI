@@ -26,7 +26,101 @@
                     <h3 class="text-xl mb-4">Resources</h3>
                     <update-user-resource-limits :user="user"></update-user-resource-limits>
                 </div>
-                <div>
+                <table v-if="computations.length > 0" class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Computation ID:
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Memory
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            vCPU
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Status
+                        </th>
+                        <th scope="col" class="relative px-6 py-3">
+                            <span class="sr-only">Stop</span>
+                        </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr v-for="c in computations" :key="c.id">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                {{ c.computation_id }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                {{ c.memory_usage }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                {{ c.vcpu_usage }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                Executing
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <button @click="terminateComputation(c.computation_id)" class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" >
+                                    Stop       
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div v-if="queue.length > 0" class="mt-4">
+                    <h1 class="text-3xl mb-6 font-bold">Queue</h1>
+                    <div class="flex flex-col mb-8">
+                        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                            <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                                <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                                    <table class="min-w-full divide-y divide-gray-200">
+                                        <thead class="bg-gray-50">
+                                            <tr>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Id
+                                                </th>
+
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Memory
+                                                </th>
+
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    vCPUs
+                                                </th>
+                                                <th scope="col" class="relative px-6 py-3">
+                                                    <span class="sr-only">Stop</span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="bg-white divide-y divide-gray-200">
+
+                                            <tr :key="job.id" v-for="job in queue">
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                {{ job.id }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                {{ job.memory }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                {{ job.vcpus }}
+                                            </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                    <button @click="removeJobFromQueue(job)" class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                                                        Dequeue       
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4">
                     <h3 class="text-xl mb-4">Danger Zone</h3>
                     <delete-user @deleted="onUserDelete" v-model="user"></delete-user>
     
@@ -58,13 +152,21 @@ export default {
     data() {
         return {
             user: null,
-            message: null
+            message: null,
+            computations: [],
+            queue: []
         };
+    },
+
+    created(){        
+        this.jwt = this.$store.getters.getJwt;
     },
 
     watch: {
         user() {
             this.update();
+            this.getCurrentComputations(this.user._id);
+            this.getScheduledUserComputations(this.user._id);
         }
     },
 
@@ -76,7 +178,64 @@ export default {
         },
         onUserDelete() {
             this.message = "User was deleted!"
-        }
+        },
+        getCurrentComputations(userID){
+            console.log(userID)
+            this.axios.get('http://'+window.localStorage.getItem('ip')+'/api/monitor/processes/' + userID, )
+            .then(response => {
+                console.log("current computations:")
+                console.log(response.data)
+                this.computations = response.data;
+            });
+        },
+        getScheduledUserComputations(userID) {
+            this.axios.get('http://'+window.localStorage.getItem('ip')+'/api/scheduler/computations/' + userID)
+            .then( response => {
+                this.queue = response.data;
+            })
+        },
+        terminateComputation(computationId){
+            console.log("Terminating computation: " + computationId)
+            this.axios.delete('http://'+window.localStorage.getItem('ip')+'/api/scheduler/computation/running/' + computationId, {
+                headers: {
+                    'Authorization': "Bearer " + this.jwt
+                }
+            })
+            .then(response => {
+                let axiosJson = response.data;
+                console.log("Computation stopped");
+                console.log(axiosJson);
+                this.getCurrentComputations(this.user._id)
+            })
+            .catch(axiosErr => {
+                console.log("Axios error: " + axiosErr);
+                alert("Axios error: " + axiosErr);
+            });
+        },
+        removeJobFromQueue(job) {
+            this.axios.delete('http://'+window.localStorage.getItem('ip')+'/api/scheduler/computation/' + job.id)
+            .then( () => {
+                this.message = "Job was dequeued."
+            }).finally( () => this.getScheduledUserComputations(this.user._id))
+        },
+/*         terminateScheduledUserComputations(userID){
+            console.log("Terminating computations for user: " + userID)
+            this.axios.delete('http://'+window.localStorage.getItem('ip')+'/api/scheduler/computations/' + userID, {
+                headers: {
+                    'Authorization': "Bearer " + this.jwt
+                }
+            })
+            .then(response => {
+                let axiosJson = response.data;
+                console.log("Computations stopped");
+                console.log(axiosJson);
+                this.getCurrentComputations()
+            })
+            .catch(axiosErr => {
+                console.log("Axios error: " + axiosErr);
+                alert("Axios error: " + axiosErr);
+            });
+        }, */
     }
 }
 </script>
