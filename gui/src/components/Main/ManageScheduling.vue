@@ -50,14 +50,14 @@
                 <div class="px-20 pb-4">
                     Solver options:
                     <div class="flex items-center mb-4 mt-4">
-                        <input id="solverConf-option-1" type="radio" name="solverConf" value="Free search" class="solverConfOption h-4 w-4 border-gray-300 focus:ring-2 focus:ring-blue-300" aria-labelledby="solverConf-option-1" aria-describedby="solverConf-option-1" checked>
+                        <input id="solverConf-option-1" type="radio" name="solverConf" value="" class="solverConfOption h-4 w-4 border-gray-300 focus:ring-2 focus:ring-blue-300" aria-labelledby="solverConf-option-1" aria-describedby="solverConf-option-1" checked>
                         <label for="solverConf-option-1" class="text-sm font-medium text-gray-900 ml-2 block">
                             Free search
                         </label>
                     </div>
 
                     <div class="flex items-center mb-4">
-                        <input id="solverConf-option-2" type="radio" name="solverConf" value="Return all solutions" class="solverConfOption h-4 w-4 border-gray-300 focus:ring-2 focus:ring-blue-300" aria-labelledby="solverConf-option-2" aria-describedby="solverConf-option-2">
+                        <input id="solverConf-option-2" type="radio" name="solverConf" value="-a" class="solverConfOption h-4 w-4 border-gray-300 focus:ring-2 focus:ring-blue-300" aria-labelledby="solverConf-option-2" aria-describedby="solverConf-option-2">
                         <label for="solverConf-option-2" class="text-sm font-medium text-gray-900 ml-2 block">
                             Return all solutions
                         </label>
